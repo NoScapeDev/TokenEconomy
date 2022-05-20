@@ -1,0 +1,17 @@
+# plugin placeholders:
+# * %receiver_name% - gets the player name of the receiving tokens.
+# * %receiver_displayname% - gets the player displayname of the receiving tokens.
+# * %tokens% - gets the value of current set/get/received tokens in the message.
+# * TokensECO also supports placeholderapi.
+m:
+  # design formats > token symbols [ ⛀ ⛂ ⛁  ⛃ ]
+  SYMBOL: '⛃'
+  BALANCE: '&7Balance: &e⛃&f%tokens% tokens'
+  # player messages
+  PAY: '&e&lTOKENS &7You''ve sent &e%tokens% &7tokens to &e%receiver_name%&7!'
+  RECEIVED: '&e&lTOKENS &7You have received &e%tokens% &7tokens into your account!'
+  NOT_ENOUGH_MATERIALS: '&cYou don''t have enough materials to get this!'
+  NOT_ENOUGH_TOKENS: '&cYou don''t have enough tokens!'
+  SEND_YOUR_SELF: '&cYou cannot send tokens to yourself!'
+  # plugin messages
+  RELOADED: '&e&lT-ADMIN &7Plugin Reloaded'

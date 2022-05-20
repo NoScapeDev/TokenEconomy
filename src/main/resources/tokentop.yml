@@ -1,0 +1,10 @@
+gui:
+  title: '&8&nToken Top'
+  slots: 18
+  items:
+    top_players:
+      displayname: '&f&l%number% &7%top_player% &e%tokens%'
+      lore:
+        - '&7Top %number% player on the server!'
+      amount: 1
+      glow: false

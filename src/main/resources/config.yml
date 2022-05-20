@@ -1,0 +1,74 @@
+# welcome to the tokens config, here you change also everything in the plugin relevant to player/plugin settings.
+# if you need any extra help please join my support discord: discord.gg/DevScape
+# in-game messages can be edited in 'messages.yml'
+t:
+  # mysql data settings.
+  # make sure you can check your panel database info to make sure everything is correct.
+  data:
+    # types: [H2 OR MYSQL]
+    type: 'H2'
+
+    # The address for the database server.
+    # - to enable this part, change type to 'MYSQL'
+    # - some hosts can use your domain or server ip.
+    address: 'host'
+    # The standard DB engine port is used by default
+    port: 3306
+    # The name of the database to store Token data in.
+    database: 'database'
+    # Credentials for the database.
+    username: 'user'
+    password: 'pass'
+    # leave this, if you don't know how to use options.
+    options: 'useSSL=false&autoReconnect=true'
+
+  plugin:
+    # weather or not /tshop is enabled?
+    token-shop: true
+    # how many entries should /tbaltop pull. Recommended: 1 - 20
+    leaderboard-entries: 10 # 10 will pull the top 10 players who have the most tokens.
+    # weather or not /tpay is enabled?
+    token-pay: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
+    # weather or not /ttoggle is enabled?
+    token-toggle: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
+    # weather or not /tstats is enabled?
+    token-stats: true
+    # weather or not a player should have to enter the command again to send tokens.
+    confirm-pay: true
+
+  # standalone player settings.
+  player:
+    # the amount of tokens a player will start with.
+    starting-balance: 150
+    # Max balance a player can have.
+    max-balance: 1000000000 # the max tokens someone can have, only admin commands will be able to bypass this.
+    # Minimum amount to be used in /tpay.
+    min-pay: 1
+    # Maximum amount to be used in /tpay.
+    max-pay: 5000000
+
+    # value = the amount of tokens it will give the player on completing the events.
+    # minus will remove a token from the player example, value: -5 = will remove 5 tokens
+    events:
+      # when a player dies
+      player-death:
+        value: -1 # minus will remove 'value' amount of tokens from the player balance
+      # when you kill a player.
+      kill-players:
+        value: 3 # set 0 to disable
+      # when you kill a mob.
+      kill-mobs:
+        value: 2 # set 0 to disable
+      # when you kill an animal.
+      kill-animals:
+        value: 2 # set 0 to disable
+      # upon crafting an item.
+      crafting:
+        value: 0 # set 0 to disable
+      # when a single advancement is complete.
+      advancement-complete:
+        value: 3 # set 0 to disable
+      nether-portal: # this example is how many tokens it would cost to go in the nether portal
+        value: -10
+      end-portal: # this example is how many tokens it would cost to go in the end portal
+        value: -20

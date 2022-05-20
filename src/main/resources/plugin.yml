@@ -1,0 +1,23 @@
+name: TokensEconomy
+version: '${project.version}'
+main: net.noscape.project.tokenseco.TokensEconomy
+api-version: 1.13
+authors: [NoScape]
+description: New tokens economy for buying/trading!
+softdepend: [PlaceholderAPI]
+
+commands:
+  tshop:
+    description: tshop
+  tadmin:
+    description: tadmin
+  tbalance:
+    aliases: [tbal, tokenbal]
+  tbaltop:
+    aliases: [ttop, tokentop]
+  tpay:
+    aliases: [tokenpay, tgive]
+  ttoggle:
+    aliases: [tokentoggle, togglepay]
+  tstats:
+    aliases: [tokenstats]
