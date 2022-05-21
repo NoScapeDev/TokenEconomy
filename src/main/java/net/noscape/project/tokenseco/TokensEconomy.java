@@ -4,6 +4,7 @@ import net.noscape.project.tokenseco.commands.*;
 import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.listeners.*;
 import net.noscape.project.tokenseco.utils.*;
+import net.noscape.project.tokenseco.utils.api.*;
 import net.noscape.project.tokenseco.utils.bstats.*;
 import net.noscape.project.tokenseco.utils.implement.*;
 import net.noscape.project.tokenseco.utils.menu.*;
@@ -25,8 +26,9 @@ public final class TokensEconomy extends JavaPlugin {
     private final H2UserData h2user = new H2UserData();
     private static String connectionURL;
     private final UserData user = new UserData();
-
-    public static final Logger log = Logger.getLogger("Minecraft");
+    public TokenAPI tokenAPI;
+    private final TokenAPI api = new TokenAPI();
+    private static final Logger log = Logger.getLogger("Minecraft");
     private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
 
     public static File messageFile;
@@ -57,6 +59,7 @@ public final class TokensEconomy extends JavaPlugin {
 
         this.saveDefaultConfig();
         this.callMetrics();
+        this.tokenAPI = new TokenAPI();
 
         messageFile = new File(getDataFolder(), "messages.yml");
         if (!messageFile.exists())
@@ -187,7 +190,7 @@ public final class TokensEconomy extends JavaPlugin {
         return menuUtil;
     }
 
-    public boolean deleteConfig() {
+    private boolean deleteConfig() {
         latestConfigFile = new File(getDataFolder(), "latest-config.yml");
         Path path = latestConfigFile.toPath();
         try {
@@ -221,7 +224,7 @@ public final class TokensEconomy extends JavaPlugin {
         return Objects.requireNonNull(getConfig().getString("t.data.type")).equalsIgnoreCase("MYSQL");
     }
 
-    public void callMetrics() {
+    private void callMetrics() {
         int pluginId = 15240;
         Metrics metrics = new Metrics(this, pluginId);
 

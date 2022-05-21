@@ -65,9 +65,6 @@ t:
       # upon crafting an item.
       crafting:
         value: 0 # set 0 to disable
-      # when a single advancement is complete.
-      advancement-complete:
-        value: 3 # set 0 to disable
       nether-portal: # this example is how many tokens it would cost to go in the nether portal
         value: -10
       end-portal: # this example is how many tokens it would cost to go in the end portal

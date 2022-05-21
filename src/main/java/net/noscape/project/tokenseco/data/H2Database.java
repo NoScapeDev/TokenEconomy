@@ -22,7 +22,6 @@ public class H2Database {
         try {
             Class.forName("org.h2.Driver");
             connection = DriverManager.getConnection(TokensEconomy.getConnectionURL());
-            Bukkit.getConsoleSender().sendMessage("H2: Successful.");
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
             Bukkit.getConsoleSender().sendMessage("H2: Something wrong with connecting to h2 database type, contact the developer if you see this.");

@@ -51,8 +51,6 @@ public class MySQL {
                 this.isconnected = true;
 
                 createTable();
-                Bukkit.getConsoleSender().sendMessage("MYSQL: Successful.");
-
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
