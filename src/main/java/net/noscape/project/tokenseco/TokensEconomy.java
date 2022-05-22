@@ -26,8 +26,7 @@ public final class TokensEconomy extends JavaPlugin {
     private final H2UserData h2user = new H2UserData();
     private static String connectionURL;
     private final UserData user = new UserData();
-    public TokenAPI tokenAPI;
-    private final TokenAPI api = new TokenAPI();
+    public static TokenAPI tokenAPI;
     private static final Logger log = Logger.getLogger("Minecraft");
     private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
 
@@ -59,7 +58,6 @@ public final class TokensEconomy extends JavaPlugin {
 
         this.saveDefaultConfig();
         this.callMetrics();
-        this.tokenAPI = new TokenAPI();
 
         messageFile = new File(getDataFolder(), "messages.yml");
         if (!messageFile.exists())
@@ -150,6 +148,7 @@ public final class TokensEconomy extends JavaPlugin {
         }
 
         config = new ConfigManager(getInstance().getConfig(), messageConfig, tokenShopConfig, tokenTopConfig);
+        tokenAPI = new TokenAPI();
     }
 
     @Override
