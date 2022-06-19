@@ -2,7 +2,7 @@ package net.noscape.project.tokenseco.utils.implement;
 
 import me.clip.placeholderapi.expansion.*;
 import net.noscape.project.tokenseco.*;
-import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.utils.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -21,7 +21,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "tokens";
+        return "te";
     }
 
     @Override
@@ -36,14 +36,20 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if (params.equalsIgnoreCase("player_tokens")){
+        if (params.equalsIgnoreCase("player_balance")){
             String text = null;
 
-            if (plugin.isMySQL()) {
-                text = String.valueOf(UserData.getTokensDouble(player.getUniqueId()));
-            } else if (plugin.isH2()) {
-                text = String.valueOf(H2UserData.getTokensDouble(player.getUniqueId()));
-            }
+            TokenManager man = TokensEconomy.getTokenManager(player);
+            text = String.valueOf(man.getTokens());
+
+            return text;
+        }
+
+        if (params.equalsIgnoreCase("player_balance_formatted")){
+            String text = null;
+
+            TokenManager man = TokensEconomy.getTokenManager(player);
+            text = "" + man.getTokens();
 
             return text;
         }

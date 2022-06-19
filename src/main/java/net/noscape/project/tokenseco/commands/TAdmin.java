@@ -66,26 +66,43 @@ public class TAdmin implements CommandExecutor {
                     int amount1 = Integer.parseInt(args[2]);
 
                     if (option.equalsIgnoreCase("give")) {
-                        if (te.isMySQL()) {
-                            UserData.addTokens(receiver.getUniqueId(), amount1);
-                        } else if (te.isH2()) {
-                            H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                        if (!receiver.isOnline()) {
+                            if (te.isMySQL()) {
+                                UserData.addTokens(receiver.getUniqueId(), amount1);
+                            } else if (te.isH2()) {
+                                H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                            }
+                        } else {
+                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                            tokens.addTokens(amount1);
                         }
+
                         sender.sendMessage(Utils.applyFormat("&7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
                         return true;
                     } else if (option.equalsIgnoreCase("set")) {
-                        if (te.isMySQL()) {
-                            UserData.setTokens(receiver.getUniqueId(), amount1);
-                        } else if (te.isH2()) {
-                            H2UserData.setTokens(receiver.getUniqueId(), amount1);
+                        if (!receiver.isOnline()) {
+                            if (te.isMySQL()) {
+                                UserData.setTokens(receiver.getUniqueId(), amount1);
+                            } else if (te.isH2()) {
+                                H2UserData.setTokens(receiver.getUniqueId(), amount1);
+                            }
+                        } else {
+                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                            tokens.setTokens(amount1);
                         }
+
                         sender.sendMessage(Utils.applyFormat("&7" + receiver.getName() + "'s token balance has been set to &e" + amount1));
                         return true;
                     } else if (option.equalsIgnoreCase("remove")) {
-                        if (te.isMySQL()) {
-                            UserData.removeTokens(receiver.getUniqueId(), amount1);
-                        } else if (te.isH2()) {
-                            H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                        if (!receiver.isOnline()) {
+                            if (te.isMySQL()) {
+                                UserData.removeTokens(receiver.getUniqueId(), amount1);
+                            } else if (te.isH2()) {
+                                H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                            }
+                        } else {
+                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                            tokens.removeTokens(amount1);
                         }
                         sender.sendMessage(Utils.applyFormat("&7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
                         return true;
@@ -147,27 +164,43 @@ public class TAdmin implements CommandExecutor {
                         int amount1 = Integer.parseInt(args[2]);
 
                         if (option.equalsIgnoreCase("give")) {
-                            if (te.isMySQL()) {
-                                UserData.addTokens(receiver.getUniqueId(), amount1);
-                            } else if (te.isH2()) {
-                                H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                            if (!receiver.isOnline()) {
+                                if (te.isMySQL()) {
+                                    UserData.addTokens(receiver.getUniqueId(), amount1);
+                                } else if (te.isH2()) {
+                                    H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                                }
+                            } else {
+                                TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                tokens.addTokens(amount1);
                             }
 
                             player.sendMessage(Utils.applyFormat("&7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
                             return true;
                         } else if (option.equalsIgnoreCase("set")) {
-                            if (te.isMySQL()) {
-                                UserData.setTokens(receiver.getUniqueId(), amount1);
-                            } else if (te.isH2()) {
-                                H2UserData.setTokens(receiver.getUniqueId(), amount1);
+                            if (!receiver.isOnline()) {
+                                if (te.isMySQL()) {
+                                    UserData.setTokens(receiver.getUniqueId(), amount1);
+                                } else if (te.isH2()) {
+                                    H2UserData.setTokens(receiver.getUniqueId(), amount1);
+                                }
+                            } else {
+                                TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                tokens.setTokens(amount1);
                             }
+
                             player.sendMessage(Utils.applyFormat("&7" + receiver.getName() + "'s token balance has been set to &e" + amount1));
                             return true;
                         } else if (option.equalsIgnoreCase("remove")) {
-                            if (te.isMySQL()) {
-                                UserData.removeTokens(receiver.getUniqueId(), amount1);
-                            } else if (te.isH2()) {
-                                H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                            if (!receiver.isOnline()) {
+                                if (te.isMySQL()) {
+                                    UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                } else if (te.isH2()) {
+                                    H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                }
+                            } else {
+                                TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                tokens.removeTokens(amount1);
                             }
                             player.sendMessage(Utils.applyFormat("&7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
                             return true;

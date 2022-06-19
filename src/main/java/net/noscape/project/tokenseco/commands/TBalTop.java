@@ -50,6 +50,12 @@ public class TBalTop implements CommandExecutor {
 
                 // player.sendMessage(Utils.applyFormat(UserData.getTop10().get(top).hashCode() + ". &7" +
                 // top + " &e⛃&f" + UserData.getTop10().get(top).longValue()));
+            } else if (cmd.getName().equalsIgnoreCase("baltop")) {
+                if (player.hasPermission("te.baltop") || player.hasPermission("te.player")) {
+                    new TokenTop(TokensEconomy.getMenuUtil(player)).open();
+                } else {
+                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.baltop or te.player");
+                }
             }
         }
         return false;

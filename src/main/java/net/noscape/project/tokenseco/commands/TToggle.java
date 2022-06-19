@@ -44,6 +44,29 @@ public class TToggle implements CommandExecutor {
                 } else {
                     player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.toggle or te.player");
                 }
+            } else if (cmd.getName().equalsIgnoreCase("toggle")) {
+                if (player.hasPermission("te.toggle")) {
+                    // /tbalance - giving the player their balance
+                    if (te.isMySQL()) {
+                        if (UserData.getIgnore(player.getUniqueId())) {
+                            UserData.setIgnore(player.getUniqueId(), false);
+                            player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will now be able to send you tokens!"));
+                        } else {
+                            UserData.setIgnore(player.getUniqueId(), true);
+                            player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will no longer be able to send you tokens!"));
+                        }
+                    } else if (te.isH2()) {
+                        if (H2UserData.getIgnore(player.getUniqueId())) {
+                            H2UserData.setIgnore(player.getUniqueId(), false);
+                            player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will now be able to send you tokens!"));
+                        } else {
+                            H2UserData.setIgnore(player.getUniqueId(), true);
+                            player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will no longer be able to send you tokens!"));
+                        }
+                    }
+                } else {
+                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.toggle or te.player");
+                }
             }
         }
         return false;

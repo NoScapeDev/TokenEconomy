@@ -32,6 +32,22 @@ public class ConfigManager {
         return Utils.applyFormat(Objects.requireNonNull(this.getMessages().getString("m.BALANCE")).replaceAll("%tokens%", String.valueOf(H2UserData.getTokensDouble(player.getUniqueId()))));
     }
 
+    public boolean isInDisabledWorld(Player player) {
+        if (getDisabledWorlds() != null)
+            for (String world : getDisabledWorlds())
+                if (Objects.requireNonNull(player.getLocation().getWorld()).getName().equalsIgnoreCase(world))
+                    return true;
+
+        return false;
+    }
+
+    public List<String> getDisabledWorlds() {
+        return getConfig().getStringList("t.restrictions.disabled-worlds");
+    }
+    public List<String> getDisabledRegions() {
+        return getConfig().getStringList("t.restrictions.disabled-regions");
+    }
+
     public String getPay() {
         return Utils.applyFormat(getMessages().getString("m.PAY"));
     }
@@ -54,6 +70,10 @@ public class ConfigManager {
 
     public boolean getValueEnabled(String str) {
             return getConfig().getInt("t.player.events." + str + ".value") != 0;
+    }
+
+    public boolean getValueBoolean(String str) {
+        return getConfig().getBoolean("t.support." + str);
     }
 
     public String getTitleShop() {

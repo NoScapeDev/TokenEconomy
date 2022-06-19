@@ -1,7 +1,3 @@
-# ---------------------------------------------------------
-# DO NOT CONFIG THIS, THE PLUGIN DOES NOT GRAB SETTINGS FROM THIS FILE -
-# SO COPY NEW STUFF FROM HERE TO 'config.yml'
-# ---------------------------------------------------------
 # welcome to the tokens config, here you change also everything in the plugin relevant to player/plugin settings.
 # if you need any extra help please join my support discord: discord.gg/DevScape
 # in-game messages can be edited in 'messages.yml'
@@ -35,6 +31,30 @@ t:
     token-pay: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
     # weather or not /ttoggle is enabled?
     token-toggle: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
+    # weather or not /tstats is enabled?
+    token-stats: true
+
+  # global restrictions, disable token gain in certain objects.
+  restrictions:
+    # if a player is in these worlds they will not receive tokens for events.
+    # - players will still be able to send tokens to other players & use them.
+    disabled-worlds:
+      - 'lobby'
+      - 'resourceworld'
+
+  support:
+    # adds support to use base command for TE.
+    base-commands:
+      # allow people to use /pay to execute tpay command.
+      pay: false
+      # allow people to use /balance to execute tbalance command.
+      balance: false
+      # allow people to use /baltop to open tbaltop gui.
+      baltop: false
+      # allow people to use /shop to open tshop gui.
+      shop: false
+      # allow people to use /toggle to execute ttoggle command.
+      toggle: false
 
   # standalone player settings.
   player:
@@ -45,7 +65,7 @@ t:
     # Minimum amount to be used in /tpay.
     min-pay: 1
     # Maximum amount to be used in /tpay.
-    max-pay: 5000000
+    max-pay: 50000000
 
     # value = the amount of tokens it will give the player on completing the events.
     # minus will remove a token from the player example, value: -5 = will remove 5 tokens

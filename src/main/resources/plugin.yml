@@ -4,7 +4,7 @@ main: net.noscape.project.tokenseco.TokensEconomy
 api-version: 1.13
 authors: [NoScape]
 description: New tokens economy for buying/trading!
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, WorldGuard]
 
 commands:
   tshop:
@@ -21,3 +21,13 @@ commands:
     aliases: [tokentoggle, togglepay]
   tstats:
     aliases: [tokenstats]
+  shop:
+    aliases: [shoptoken]
+  balance:
+    aliases: [balance, tokens]
+  baltop:
+    aliases: [topbal]
+  pay:
+    aliases: [give]
+  toggle:
+    aliases: [toggletoken]

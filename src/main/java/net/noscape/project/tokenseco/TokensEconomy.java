@@ -16,7 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.logging.*;
 
 public final class TokensEconomy extends JavaPlugin {
 
@@ -24,11 +23,12 @@ public final class TokensEconomy extends JavaPlugin {
     private static MySQL mysql;
     private static H2Database h2;
     private final H2UserData h2user = new H2UserData();
+    private TokenManager tm;
     private static String connectionURL;
     private final UserData user = new UserData();
     public static TokenAPI tokenAPI;
-    private static final Logger log = Logger.getLogger("Minecraft");
     private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
+    private static final HashMap<OfflinePlayer, TokenManager> tokenMap = new HashMap<>();
 
     public static File messageFile;
     public static FileConfiguration messageConfig;
@@ -41,6 +41,7 @@ public final class TokensEconomy extends JavaPlugin {
 
     public static File latestConfigFile;
     public static FileConfiguration latestConfigConfig;
+
     public static ConfigManager config;
 
     private final String host = getConfig().getString("t.data.address");
@@ -113,7 +114,6 @@ public final class TokensEconomy extends JavaPlugin {
             }
         }
 
-        // Small check to make sure that PlaceholderAPI is installed
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPI(this).register();
         }
@@ -138,6 +138,26 @@ public final class TokensEconomy extends JavaPlugin {
         }
 
 
+        if (getConfig().getBoolean("t.support.base-commands.shop")) {
+            Objects.requireNonNull(getCommand("shop")).setExecutor(new TShop());
+        }
+
+        if (getConfig().getBoolean("t.support.base-commands.baltop")) {
+            Objects.requireNonNull(getCommand("baltop")).setExecutor(new TBalTop());
+        }
+
+        if (getConfig().getBoolean("t.support.base-commands.pay")) {
+            Objects.requireNonNull(getCommand("pay")).setExecutor(new TPay());
+        }
+
+        if (getConfig().getBoolean("t.support.base-commands.balance")) {
+            Objects.requireNonNull(getCommand("balance")).setExecutor(new TBalance());
+        }
+
+        if (getConfig().getBoolean("t.support.base-commands.toggle")) {
+            Objects.requireNonNull(getCommand("toggle")).setExecutor(new TToggle());
+        }
+
         if (isMySQL()) {
             mysql = new MySQL(host, port, database, username, password, options);
         }
@@ -153,7 +173,7 @@ public final class TokensEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        // stop
     }
 
     public static TokensEconomy getInstance() {
@@ -176,6 +196,8 @@ public final class TokensEconomy extends JavaPlugin {
         return h2;
     }
 
+    public TokenManager getTokenManager() { return tm; }
+
     public static MenuUtil getMenuUtil(Player player) {
         MenuUtil menuUtil;
 
@@ -187,6 +209,28 @@ public final class TokensEconomy extends JavaPlugin {
         }
 
         return menuUtil;
+    }
+
+    public static TokenManager getTokenManager(OfflinePlayer player) {
+        TokenManager token = null;
+
+        if (TokensEconomy.instance.isMySQL()) {
+            if (tokenMap.containsKey(player)) {
+                return tokenMap.get(player);
+            } else {
+                token = new TokenManager(player, UserData.getTokensInt(player.getUniqueId()));
+                tokenMap.put(player, token);
+            }
+        } else if (TokensEconomy.instance.isH2()) {
+            if (tokenMap.containsKey(player)) {
+                return tokenMap.get(player);
+            } else {
+                token = new TokenManager(player, H2UserData.getTokensInt(player.getUniqueId()));
+                tokenMap.put(player, token);
+            }
+        }
+
+        return token;
     }
 
     private boolean deleteConfig() {
@@ -221,6 +265,10 @@ public final class TokensEconomy extends JavaPlugin {
 
     public Boolean isMySQL() {
         return Objects.requireNonNull(getConfig().getString("t.data.type")).equalsIgnoreCase("MYSQL");
+    }
+
+    public static HashMap<OfflinePlayer, TokenManager> getTokenMap() {
+        return tokenMap;
     }
 
     private void callMetrics() {

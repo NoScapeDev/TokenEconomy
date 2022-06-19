@@ -27,6 +27,13 @@ public class TShop implements CommandExecutor {
                 } else {
                     player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.shop or te.player");
                 }
+            } else if (cmd.getName().equalsIgnoreCase("shop")) {
+                if (player.hasPermission("te.shop") || player.hasPermission("te.player")) {
+                    // /tbalance - giving the player their balance
+                    new TokenShop(TokensEconomy.getMenuUtil(player)).open();
+                } else {
+                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.shop or te.player");
+                }
             }
         }
         return false;
