@@ -33,6 +33,8 @@ t:
     token-toggle: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
     # weather or not /tstats is enabled?
     token-stats: true
+    # weather or not bank system is enabled.
+    token-bank: true
 
   # global restrictions, disable token gain in certain objects.
   restrictions:
@@ -43,6 +45,8 @@ t:
       - 'resourceworld'
 
   support:
+    # weather TE should be a vault dependency.
+    tokeneco-vault-dependency: false
     # adds support to use base command for TE.
     base-commands:
       # allow people to use /pay to execute tpay command.
@@ -55,6 +59,8 @@ t:
       shop: false
       # allow people to use /toggle to execute ttoggle command.
       toggle: false
+      # allow people to use /bank to execute tbank command
+      bank: false
 
   # standalone player settings.
   player:
@@ -66,6 +72,21 @@ t:
     min-pay: 1
     # Maximum amount to be used in /tpay.
     max-pay: 50000000
+    bank:
+      # starting bank balance a player starts with.
+      starting-balance: 0
+      # Max bank balance a player can have.
+      max-bank: 1000000000 # the max bank balance someone can have, only admin commands will be able to bypass this.
+      # Minimum amount someone can deposit.
+      min-bank-deposit: 1
+      # Maximum amount someone can deposit.
+      max-bank-deposit: 50000000
+      # Minimum amount someone can withdraw.
+      min-bank-withdraw: 1
+      # Maximum amount someone can withdraw.
+      max-bank-withdraw: 50000000
+      # should token shop use bank balance? if true, this will add to normal token balance.
+      shop-bank-balance: false
 
     # value = the amount of tokens it will give the player on completing the events.
     # minus will remove a token from the player example, value: -5 = will remove 5 tokens

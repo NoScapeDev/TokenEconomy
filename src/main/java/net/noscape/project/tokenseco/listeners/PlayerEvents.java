@@ -2,9 +2,8 @@ package net.noscape.project.tokenseco.listeners;
 
 import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
-import net.noscape.project.tokenseco.utils.api.events.*;
-import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
@@ -21,9 +20,11 @@ public class PlayerEvents implements Listener {
         if (te.isMySQL()) {
             TokensEconomy.getUser().createPlayer(e.getPlayer());
             TokensEconomy.getTokenManager(e.getPlayer());
+            TokensEconomy.getBankManager(e.getPlayer());
         } else if (te.isH2()) {
             TokensEconomy.getH2user().createPlayer(e.getPlayer());
             TokensEconomy.getTokenManager(e.getPlayer());
+            TokensEconomy.getBankManager(e.getPlayer());
         }
     }
 
@@ -31,14 +32,19 @@ public class PlayerEvents implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         if (TokensEconomy.getTokenMap().containsKey(player)) {
-            TokenManager man = TokensEconomy.getTokenManager(player);
+            TokenManager tokens = TokensEconomy.getTokenManager(player);
+            BankManager bank = TokensEconomy.getBankManager(player);
+
             if (te.isMySQL()) {
-                UserData.setTokens(player.getUniqueId(), man.getTokens());
+                UserData.setTokens(player.getUniqueId(), tokens.getTokens());
+                UserData.setBank(player.getUniqueId(), bank.getBank());
             } else if (te.isH2()) {
-                H2UserData.setTokens(player.getUniqueId(), man.getTokens());
+                H2UserData.setTokens(player.getUniqueId(), tokens.getTokens());
+                H2UserData.setBank(player.getUniqueId(), bank.getBank());
             }
 
             TokensEconomy.getTokenMap().remove(e.getPlayer());
+            TokensEconomy.getBankMap().remove(e.getPlayer());
         }
     }
 
@@ -48,33 +54,15 @@ public class PlayerEvents implements Listener {
             Player killer = e.getEntity().getKiller();
 
             assert killer != null;
+            TokenManager man = TokensEconomy.getTokenManager(killer);
+
             if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
                 if (TokensEconomy.getConfigManager().getValueEnabled("kill-players")) {
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(killer)) {
-                            int tokens = TokensEconomy.getConfigManager().getValue("kill-players");
+                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        int tokens = TokensEconomy.getConfigManager().getValue("kill-players");
 
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(killer);
-                            man.addTokens(tokens);
-
-                            killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a player!"));
-                        }
-                    } else {
-                        if (te.isH2()) {
-                            if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(killer)) {
-                                int tokens = TokensEconomy.getConfigManager().getValue("kill-players");
-
-                                PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                                Bukkit.getPluginManager().callEvent(event);
-
-                                TokenManager man = TokensEconomy.getTokenManager(killer);
-                                man.addTokens(tokens);
-                                killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a player!"));
-                            }
-                        }
+                        man.addTokens(tokens);
+                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a player!"));
                     }
                 }
             }
@@ -82,30 +70,15 @@ public class PlayerEvents implements Listener {
             Player killer = e.getEntity().getKiller();
 
             assert killer != null;
+
+            TokenManager man = TokensEconomy.getTokenManager(killer);
             if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
                 if (TokensEconomy.getConfigManager().getValueEnabled("kill-mobs")) {
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(killer)) {
-                            int tokens = TokensEconomy.getConfigManager().getValue("kill-mobs");
+                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        int tokens = TokensEconomy.getConfigManager().getValue("kill-mobs");
 
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(killer);
-                            man.addTokens(tokens);
-                            killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a mob!"));
-                        }
-                    } else if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(killer)) {
-                            int tokens = TokensEconomy.getConfigManager().getValue("kill-mobs");
-
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(killer);
-                            man.addTokens(tokens);
-                            killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a mob!"));
-                        }
+                        man.addTokens(tokens);
+                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a mob!"));
                     }
                 }
             }
@@ -114,30 +87,14 @@ public class PlayerEvents implements Listener {
 
             assert killer != null;
 
+            TokenManager man = TokensEconomy.getTokenManager(killer);
             if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
                 if (TokensEconomy.getConfigManager().getValueEnabled("kill-animals")) {
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(killer)) {
-                            int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
+                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
 
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(killer);
-                            man.addTokens(tokens);
-                            killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing animals!"));
-                        }
-                    } else if (te.isH2()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(killer)) {
-                            int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
-
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(killer, tokens);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(killer);
-                            man.addTokens(tokens);
-                            killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing animals!"));
-                        }
+                        man.addTokens(tokens);
+                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing an animal!"));
                     }
                 }
             }
@@ -145,6 +102,7 @@ public class PlayerEvents implements Listener {
             Player victim = (Player) e.getEntity();
 
             String str = TokensEconomy.getConfigManager().getConfig().getString("t.player.events.player-death.value");
+            TokenManager man = TokensEconomy.getTokenManager(victim);
             if (!TokensEconomy.getConfigManager().isInDisabledWorld(victim)) {
                 assert str != null;
                 if (str.startsWith("-")) {
@@ -152,30 +110,14 @@ public class PlayerEvents implements Listener {
 
                     int value = Integer.parseInt(str);
 
-                    TokenManager man = TokensEconomy.getTokenManager(victim);
                     man.removeTokens(value);
                     victim.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for dying!"));
                 } else {
                     int value = Integer.parseInt(str);
 
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(victim)) {
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(victim, value);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(victim);
-                            man.addTokens(value);
-                            victim.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for dying!"));
-                        }
-                    } else if (te.isH2()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(victim)) {
-                            PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(victim, value);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            TokenManager man = TokensEconomy.getTokenManager(victim);
-                            man.addTokens(value);
-                            victim.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for dying!"));
-                        }
+                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        man.addTokens(value);
+                        victim.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for dying!"));
                     }
                 }
             }
@@ -185,31 +127,15 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onCraft(CraftItemEvent e) {
         Player player = (Player) e.getInventory().getHolder();
+        TokenManager man = TokensEconomy.getTokenManager(player);
         if (!TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
             assert player != null;
             if (TokensEconomy.getConfigManager().getValueEnabled("crafting")) {
-                if (te.isMySQL()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                        int tokens = TokensEconomy.getConfigManager().getValue("crafting");
+                if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                    int tokens = TokensEconomy.getConfigManager().getValue("crafting");
 
-                        PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(player, tokens);
-                        Bukkit.getPluginManager().callEvent(event);
-
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(tokens);
-                        player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
-                    }
-                } else if (te.isH2()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(player)) {
-                        int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
-
-                        PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(player, tokens);
-                        Bukkit.getPluginManager().callEvent(event);
-
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(tokens);
-                        player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
-                    }
+                    man.addTokens(tokens);
+                    player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
                 }
             }
         }
@@ -219,30 +145,15 @@ public class PlayerEvents implements Listener {
     public void onAdvance(PlayerAdvancementDoneEvent e) {
         Player player = e.getPlayer();
 
+        TokenManager man = TokensEconomy.getTokenManager(player);
+
         if (!TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
             if (TokensEconomy.getConfigManager().getValueEnabled("advancement-complete")) {
-                if (te.isMySQL()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                        int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
+                if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                    int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
 
-                        PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(player, tokens);
-                        Bukkit.getPluginManager().callEvent(event);
-
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(tokens);
-                        player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
-                    }
-                } else if (te.isH2()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(player)) {
-                        int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
-
-                        PlayerReceiveTokensEvent event = new PlayerReceiveTokensEvent(player, tokens);
-                        Bukkit.getPluginManager().callEvent(event);
-
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(tokens);
-                        player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
-                    }
+                    man.addTokens(tokens);
+                    player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
                 }
             }
         }
@@ -251,9 +162,10 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onNetherEnter(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
+
+        TokenManager man = TokensEconomy.getTokenManager(player);
+
         if (e.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
-
-
             String str = TokensEconomy.getConfigManager().getConfig().getString("t.player.events.nether-portal.value");
 
             assert str != null;
@@ -262,26 +174,17 @@ public class PlayerEvents implements Listener {
 
                 int value = Integer.parseInt(str);
 
-                TokenManager man = TokensEconomy.getTokenManager(player);
                 man.removeTokens(value);
                 player.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for using the nether portal!"));
             } else {
                 int value = Integer.parseInt(str);
-                if (te.isMySQL()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(value);
-                        player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
-                    }
-                } else if (te.isH2()) {
-                    if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(player)) {
-                        TokenManager man = TokensEconomy.getTokenManager(player);
-                        man.addTokens(value);
-                        player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
-                    }
+                if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                    man.addTokens(value);
+                    player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
                 }
             }
         } else {
+
             if (e.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
 
                 String str = TokensEconomy.getConfigManager().getConfig().getString("t.player.events.end-portal.value");
@@ -292,23 +195,13 @@ public class PlayerEvents implements Listener {
 
                     int value = Integer.parseInt(str);
 
-                    TokenManager man = TokensEconomy.getTokenManager(player);
                     man.removeTokens(value);
                     player.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for using the nether portal!"));
                 } else {
                     int value = Integer.parseInt(str);
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                            TokenManager man = TokensEconomy.getTokenManager(player);
-                            man.addTokens(value);
-                            player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
-                        }
-                    } else if (te.isH2()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(player)) {
-                            TokenManager man = TokensEconomy.getTokenManager(player);
-                            man.addTokens(value);
-                            player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
-                        }
+                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        man.addTokens(value);
+                        player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
                     }
                 }
             }

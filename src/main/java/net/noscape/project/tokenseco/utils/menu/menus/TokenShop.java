@@ -2,6 +2,7 @@ package net.noscape.project.tokenseco.utils.menu.menus;
 
 import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
 import net.noscape.project.tokenseco.utils.menu.*;
 import org.bukkit.*;
@@ -45,38 +46,28 @@ public class TokenShop extends Menu {
             if (Objects.requireNonNull(Objects.requireNonNull(e.getCurrentItem()).getItemMeta()).getDisplayName().equals(Utils.applyFormat(displayname))) {
                 if (hasMaterial(player.getInventory(), amount_material)) {
                     e.setCancelled(true);
-                    if (te.isMySQL()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                            removeMaterial(player.getInventory(), amount_material);
-                            if (te.isMySQL()) {
-                                UserData.addTokens(player.getUniqueId(), tokens);
-                            } else if (te.isH2()) {
-                                H2UserData.addTokens(player.getUniqueId(), tokens);
-                            }
-                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens))));
-                            if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
-                                player.playSound(player.getLocation(),
-                                        Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.success")).toUpperCase()), 1, 1);
-                            }
+                    TokenManager ptokens = TokensEconomy.getTokenManager(player);
+                    if (!(ptokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
+                        // remove material from inventory
+                        removeMaterial(player.getInventory(), amount_material);
+
+                        // get and add tokens
+                        if (!TokensEconomy.getConfigManager().isBankBalanceShop()) {
+                            TokenManager token = TokensEconomy.getTokenManager(player);
+                            token.addTokens(tokens);
                         } else {
-                            player.sendMessage(Utils.applyFormat("&cYou have reached the max token balance!"));
+                            BankManager bank = TokensEconomy.getBankManager(player);
+                            bank.addBank(tokens);
                         }
-                    } else if (te.isH2()) {
-                        if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(player)) {
-                            removeMaterial(player.getInventory(), amount_material);
-                            if (te.isMySQL()) {
-                                UserData.addTokens(player.getUniqueId(), tokens);
-                            } else if (te.isH2()) {
-                                H2UserData.addTokens(player.getUniqueId(), tokens);
-                            }
-                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens))));
-                            if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
-                                player.playSound(player.getLocation(),
-                                        Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.success")).toUpperCase()), 1, 1);
-                            }
-                        } else {
-                            player.sendMessage(Utils.applyFormat("&cYou have reached the max token balance!"));
+
+                        // confirmation
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens))));
+                        if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
+                            player.playSound(player.getLocation(),
+                                    Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.success")).toUpperCase()), 1, 1);
                         }
+                    } else {
+                        player.sendMessage(Utils.applyFormat("&cYou have reached the max token balance!"));
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(TokensEconomy.getConfigManager().getMessages().getString("m.NOT_ENOUGH_MATERIALS")));

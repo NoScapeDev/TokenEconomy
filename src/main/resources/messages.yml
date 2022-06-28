@@ -4,14 +4,53 @@
 # * %tokens% - gets the value of current set/get/received tokens in the message.
 # * TokensECO also supports placeholderapi.
 m:
-  # design formats > token symbols [ ⛀ ⛂ ⛁  ⛃ ]
+  # design formats > token symbols [ ⛀ ⛂ ⛁ ⛃ ]
   SYMBOL: '⛃'
+
+  # token balance
   BALANCE: '&7Balance: &e⛃&f%tokens% tokens'
-  # player messages
+
+  # bank messages
+  BANK-BALANCE: '&7Bank Balance: &b⛃&f%tokens% tokens'
+  BANK-WITHDRAW: '&eBank> &f%amount% &7tokens have been removed & added to you token balance.'
+  BANK-DEPOSIT: '&eBank> &f%amount% &7tokens have been added into the bank.'
+  BANK-HELP:
+    - '&bToken Bank Commands:'
+    - ''
+    - '&b/tbank &7- will display your bank balance.'
+    - '&b/tbank [help] &7- will display this help page.'
+    - '&b/tbank [withdraw] <amount> &7- withdraw money from your bank.'
+    - '&b/tbank [deposit] <amount> &7- deposit money into your bank.'
+    - '&b<> &7Required. &b[] &7Optional.'
+
+  # admin messages
+  ADMIN-HELP:
+    - '&cToken Admin Commands:'
+    - ''
+    - '&c/tadmin &7- will display this help menu.'
+    - '&c/tadmin tokens [give/set/remove] <player> <amount> &7- player setting commands for normal token balance.'
+    - '&c/tadmin bank [give/set/remove] <player> <amount> &7- player setting commands for bank system.'
+    - '&c/tadmin reload &7- reload all files.'
+    - '&c/tadmin version &7- check what version plugin on.'
+    - ''
+    - '&c<> &7Required. &c[] &7Optional.'
+
+  # normal token balance messages
   PAY: '&e&lTOKENS &7You''ve sent &e%tokens% &7tokens to &e%receiver_name%&7!'
   RECEIVED: '&e&lTOKENS &7You have received &e%tokens% &7tokens into your account!'
+
+  # checked messages
+  MAX-DEPOSIT: '&cBank> &7You tried depositing too much.'
+  MIN-DEPOSIT: '&cBank> &7You tried depositing too little.'
+  MAX-WITHDRAW: '&cBank> &7You tried withdrawing too much.'
+  MIN-WITHDRAW: '&cBank> &7You tried withdrawing too little.'
+  NOT-ENOUGH-TO-WITHDRAW: '&cBank> &7You''re trying to withdraw more than you have.'
+  NOT-ENOUGH-TO-DEPOSIT: '&cBank> &7Not enough tokens to deposit into your bank.'
   NOT_ENOUGH_MATERIALS: '&cYou don''t have enough materials to get this!'
   NOT_ENOUGH_TOKENS: '&cYou don''t have enough tokens!'
   SEND_YOUR_SELF: '&cYou cannot send tokens to yourself!'
+
   # plugin messages
-  RELOADED: '&e&lT-ADMIN &7Plugin Reloaded'
+  RELOADED: '&e&lADMIN &7Plugin Reloaded'
+  PERMISSION: '&cYou have no permission to use this!'
+

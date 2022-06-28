@@ -7,6 +7,8 @@ import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 
+import java.util.*;
+
 public class TStats implements CommandExecutor {
 
     private final TokensEconomy te = TokensEconomy.getPlugin(TokensEconomy.class);
@@ -31,7 +33,8 @@ public class TStats implements CommandExecutor {
                         player.sendMessage(Utils.applyFormat("&7Your Balance: &e" + H2UserData.getTokensDouble(player.getUniqueId())));
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.stats or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }

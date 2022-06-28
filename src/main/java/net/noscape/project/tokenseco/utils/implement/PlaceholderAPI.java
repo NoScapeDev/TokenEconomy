@@ -2,7 +2,8 @@ package net.noscape.project.tokenseco.utils.implement;
 
 import me.clip.placeholderapi.expansion.*;
 import net.noscape.project.tokenseco.*;
-import net.noscape.project.tokenseco.utils.*;
+import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -36,8 +37,86 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if (params.equalsIgnoreCase("player_balance")){
+        
+        if (params.equalsIgnoreCase(player.getName() + "_money")) {
             String text = null;
+
+            if (player.isOnline()) {
+                TokenManager man = TokensEconomy.getTokenManager(player);
+                text = String.valueOf(man.getTokens());
+            } else {
+                if (plugin.isMySQL()) {
+                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                } else if (plugin.isH2()) {
+                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
+                }
+            }
+            
+            return text;
+        }
+
+        if (params.equalsIgnoreCase(player.getName() + "_bank")) {
+            String text = null;
+
+            if (player.isOnline()) {
+                BankManager bank = TokensEconomy.getBankManager(player);
+                text = String.valueOf(bank.getBank());
+            } else {
+                if (plugin.isMySQL()) {
+                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                } else if (plugin.isH2()) {
+                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
+                }
+            }
+
+            return text;
+        }
+
+        if (params.equalsIgnoreCase(player.getName() + "_money_formatted")) {
+            String text = null;
+
+            if (player.isOnline()) {
+                TokenManager man = TokensEconomy.getTokenManager(player);
+                text = TokensEconomy.getConfigManager().getTokenSymbol() + man.getTokens();
+            } else {
+                if (plugin.isMySQL()) {
+                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                } else if (plugin.isH2()) {
+                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
+                }
+            }
+
+            return text;
+        }
+
+        if (params.equalsIgnoreCase(player.getName() + "_bank_formatted")) {
+            String text = null;
+
+            if (player.isOnline()) {
+                BankManager bank = TokensEconomy.getBankManager(player);
+                text = TokensEconomy.getConfigManager().getTokenSymbol() + bank.getBank();
+            } else {
+                if (plugin.isMySQL()) {
+                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                } else if (plugin.isH2()) {
+                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
+                }
+            }
+
+            return text;
+        }
+
+        if (params.equalsIgnoreCase("player_bank")){
+            String text;
+
+            BankManager bank = TokensEconomy.getBankManager(player);
+            text = String.valueOf(bank.getBank());
+
+            return text;
+        }
+
+        if (params.equalsIgnoreCase("player_money")){
+            String text;
 
             TokenManager man = TokensEconomy.getTokenManager(player);
             text = String.valueOf(man.getTokens());
@@ -45,11 +124,11 @@ public class PlaceholderAPI extends PlaceholderExpansion {
             return text;
         }
 
-        if (params.equalsIgnoreCase("player_balance_formatted")){
-            String text = null;
+        if (params.equalsIgnoreCase("player_money_formatted")){
+            String text;
 
             TokenManager man = TokensEconomy.getTokenManager(player);
-            text = "" + man.getTokens();
+            text = TokensEconomy.getConfigManager().getTokenSymbol() + man.getTokens();
 
             return text;
         }

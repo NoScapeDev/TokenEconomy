@@ -1,7 +1,7 @@
 package net.noscape.project.tokenseco.commands;
 
 import net.noscape.project.tokenseco.*;
-import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
 import net.noscape.project.tokenseco.utils.menu.menus.*;
 import org.bukkit.*;
@@ -45,7 +45,8 @@ public class TBalTop implements CommandExecutor {
                     //}
                     //}
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.baltop or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
 
                 // player.sendMessage(Utils.applyFormat(UserData.getTop10().get(top).hashCode() + ". &7" +
@@ -54,7 +55,8 @@ public class TBalTop implements CommandExecutor {
                 if (player.hasPermission("te.baltop") || player.hasPermission("te.player")) {
                     new TokenTop(TokensEconomy.getMenuUtil(player)).open();
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.baltop or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }

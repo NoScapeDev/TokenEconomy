@@ -1,11 +1,14 @@
 package net.noscape.project.tokenseco.commands;
 
 import net.noscape.project.tokenseco.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
 import net.noscape.project.tokenseco.utils.menu.menus.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+
+import java.util.*;
 
 public class TShop implements CommandExecutor {
 
@@ -25,14 +28,16 @@ public class TShop implements CommandExecutor {
                     // /tbalance - giving the player their balance
                     new TokenShop(TokensEconomy.getMenuUtil(player)).open();
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.shop or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             } else if (cmd.getName().equalsIgnoreCase("shop")) {
                 if (player.hasPermission("te.shop") || player.hasPermission("te.player")) {
                     // /tbalance - giving the player their balance
                     new TokenShop(TokensEconomy.getMenuUtil(player)).open();
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.shop or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }

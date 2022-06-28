@@ -1,6 +1,7 @@
 package net.noscape.project.tokenseco.commands;
 
 import net.noscape.project.tokenseco.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
@@ -62,7 +63,8 @@ public class TBalance implements CommandExecutor {
                                     String.valueOf(tokensTarget.getTokens()))));
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.balance.other");
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                     }
                 } else {
                     if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
@@ -70,7 +72,8 @@ public class TBalance implements CommandExecutor {
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
                                 String.valueOf(tokens.getTokens()))));
                     } else {
-                        player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.balance or te.player");
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                     }
                 }
             }

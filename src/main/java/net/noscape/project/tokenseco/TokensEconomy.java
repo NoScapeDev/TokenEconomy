@@ -1,9 +1,10 @@
 package net.noscape.project.tokenseco;
 
+import net.milkbowl.vault.economy.*;
 import net.noscape.project.tokenseco.commands.*;
 import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.listeners.*;
-import net.noscape.project.tokenseco.utils.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.api.*;
 import net.noscape.project.tokenseco.utils.bstats.*;
 import net.noscape.project.tokenseco.utils.implement.*;
@@ -11,6 +12,7 @@ import net.noscape.project.tokenseco.utils.menu.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.*;
+import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -27,8 +29,10 @@ public final class TokensEconomy extends JavaPlugin {
     private static String connectionURL;
     private final UserData user = new UserData();
     public static TokenAPI tokenAPI;
+    private EconomyVault eco_vault;
     private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
     private static final HashMap<OfflinePlayer, TokenManager> tokenMap = new HashMap<>();
+    private static final HashMap<OfflinePlayer, BankManager> bankMap = new HashMap<>();
 
     public static File messageFile;
     public static FileConfiguration messageConfig;
@@ -125,8 +129,13 @@ public final class TokensEconomy extends JavaPlugin {
         if (getConfig().getBoolean("t.plugin.token-pay")) {
             Objects.requireNonNull(getCommand("tpay")).setExecutor(new TPay());
         }
+
         Objects.requireNonNull(getCommand("tbalance")).setExecutor(new TBalance());
         Objects.requireNonNull(getCommand("tbaltop")).setExecutor(new TBalTop());
+
+        if (getConfig().getBoolean("t.plugin.token-bank")) {
+            Objects.requireNonNull(getCommand("tbank")).setExecutor(new TBank());
+        }
         if (getConfig().getBoolean("t.plugin.token-toggle")) {
             Objects.requireNonNull(getCommand("ttoggle")).setExecutor(new TToggle());
         }
@@ -136,7 +145,6 @@ public final class TokensEconomy extends JavaPlugin {
         if (getConfig().getBoolean("t.plugin.token-stats")) {
             Objects.requireNonNull(getCommand("tstats")).setExecutor(new TStats());
         }
-
 
         if (getConfig().getBoolean("t.support.base-commands.shop")) {
             Objects.requireNonNull(getCommand("shop")).setExecutor(new TShop());
@@ -158,6 +166,10 @@ public final class TokensEconomy extends JavaPlugin {
             Objects.requireNonNull(getCommand("toggle")).setExecutor(new TToggle());
         }
 
+        if (getConfig().getBoolean("t.support.base-commands.bank")) {
+            Objects.requireNonNull(getCommand("bank")).setExecutor(new TBank());
+        }
+
         if (isMySQL()) {
             mysql = new MySQL(host, port, database, username, password, options);
         }
@@ -165,6 +177,13 @@ public final class TokensEconomy extends JavaPlugin {
         if (isH2()) {
             connectionURL = "jdbc:h2:" + getDataFolder().getAbsolutePath() + "/database";
             h2 = new H2Database(connectionURL);
+        }
+
+        if (getConfig().getBoolean("t.support.tokeneco-vault-dependency")) {
+            if (!setupVault()) {
+                Bukkit.getConsoleSender().sendMessage("Vault-Setup: vault support in config is enabled but 'Vault Plugin' seems to be missing...");
+                Bukkit.getPluginManager().disablePlugin(this);
+            }
         }
 
         config = new ConfigManager(getInstance().getConfig(), messageConfig, tokenShopConfig, tokenTopConfig);
@@ -196,8 +215,6 @@ public final class TokensEconomy extends JavaPlugin {
         return h2;
     }
 
-    public TokenManager getTokenManager() { return tm; }
-
     public static MenuUtil getMenuUtil(Player player) {
         MenuUtil menuUtil;
 
@@ -209,6 +226,28 @@ public final class TokensEconomy extends JavaPlugin {
         }
 
         return menuUtil;
+    }
+
+    public static BankManager getBankManager(OfflinePlayer player) {
+        BankManager bank = null;
+
+        if (TokensEconomy.instance.isMySQL()) {
+            if (bankMap.containsKey(player)) {
+                return bankMap.get(player);
+            } else {
+                bank = new BankManager(player, UserData.getBankInt(player.getUniqueId()));
+                bankMap.put(player, bank);
+            }
+        } else if (TokensEconomy.instance.isH2()) {
+            if (bankMap.containsKey(player)) {
+                return bankMap.get(player);
+            } else {
+                bank = new BankManager(player, H2UserData.getBankInt(player.getUniqueId()));
+                bankMap.put(player, bank);
+            }
+        }
+
+        return bank;
     }
 
     public static TokenManager getTokenManager(OfflinePlayer player) {
@@ -271,6 +310,10 @@ public final class TokensEconomy extends JavaPlugin {
         return tokenMap;
     }
 
+    public static HashMap<OfflinePlayer, BankManager> getBankMap() {
+        return bankMap;
+    }
+
     private void callMetrics() {
         int pluginId = 15240;
         Metrics metrics = new Metrics(this, pluginId);
@@ -293,6 +336,16 @@ public final class TokensEconomy extends JavaPlugin {
             }
             return map;
         }));
+    }
+
+    private boolean setupVault() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+
+        getServer().getServicesManager().register(Economy.class, eco_vault, this, ServicePriority.Highest);
+        Bukkit.getConsoleSender().sendMessage("Vault-Setup: has been registered now.");
+        return true;
     }
 
 }

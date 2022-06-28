@@ -2,11 +2,13 @@ package net.noscape.project.tokenseco.commands;
 
 import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
-import net.noscape.project.tokenseco.utils.menu.menus.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+
+import java.util.*;
 
 public class TToggle implements CommandExecutor {
 
@@ -42,7 +44,8 @@ public class TToggle implements CommandExecutor {
                         }
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.toggle or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             } else if (cmd.getName().equalsIgnoreCase("toggle")) {
                 if (player.hasPermission("te.toggle")) {
@@ -65,7 +68,8 @@ public class TToggle implements CommandExecutor {
                         }
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.toggle or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }

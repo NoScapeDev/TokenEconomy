@@ -33,8 +33,8 @@ public class UserData {
                                 "(?,?,?,?,?)");
                 statement.setString(1, p.getName());
                 statement.setString(2, String.valueOf(p.getUniqueId()));
-                statement.setInt(3, TokensEconomy.getConfigManager().getDefaultTokens()); // id
-                statement.setDouble(4, 0); // bank
+                statement.setInt(3, TokensEconomy.getConfigManager().getDefaultTokens()); // tokens
+                statement.setInt(4, TokensEconomy.getConfigManager().getDefaultBank()); // bank
                 statement.setBoolean(5, false);
                 statement.executeUpdate();
             }
@@ -102,6 +102,28 @@ public class UserData {
         try {
             PreparedStatement statement = TokensEconomy.getMysql().getConnection().prepareStatement("UPDATE `user` SET Tokens=? WHERE (UUID=?)");
             statement.setInt(1, getTokensInt(uuid) + amount);
+            statement.setString(2, uuid.toString());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addBank(UUID uuid, int amount) {
+        try {
+            PreparedStatement statement = TokensEconomy.getMysql().getConnection().prepareStatement("UPDATE `user` SET Bank=? WHERE (UUID=?)");
+            statement.setInt(1, getBankInt(uuid) + amount);
+            statement.setString(2, uuid.toString());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeBank(UUID uuid, int amount) {
+        try {
+            PreparedStatement statement = TokensEconomy.getMysql().getConnection().prepareStatement("UPDATE `user` SET Bank=? WHERE (UUID=?)");
+            statement.setInt(1, getBankInt(uuid) - amount);
             statement.setString(2, uuid.toString());
             statement.executeUpdate();
         } catch (SQLException e) {

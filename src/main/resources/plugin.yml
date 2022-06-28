@@ -4,7 +4,7 @@ main: net.noscape.project.tokenseco.TokensEconomy
 api-version: 1.13
 authors: [NoScape]
 description: New tokens economy for buying/trading!
-softdepend: [PlaceholderAPI, WorldGuard]
+softdepend: [PlaceholderAPI, Vault]
 
 commands:
   tshop:
@@ -31,3 +31,7 @@ commands:
     aliases: [give]
   toggle:
     aliases: [toggletoken]
+  bank:
+    description: bank system command
+  tbank:
+    description: bank system command

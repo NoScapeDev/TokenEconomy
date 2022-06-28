@@ -2,10 +2,13 @@ package net.noscape.project.tokenseco.commands;
 
 import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+
+import java.util.*;
 
 public class TPay implements CommandExecutor  {
 
@@ -30,10 +33,10 @@ public class TPay implements CommandExecutor  {
                         if (receiver != null) {
                             if (te.isMySQL()) {
                                 if (!UserData.getIgnore(receiver.getUniqueId())) {
-                                    if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(receiver)) {
+                                    TokenManager ptokens = TokensEconomy.getTokenManager(player);
+                                    TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
+                                    if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                                         if (receiver != player) {
-                                            TokenManager ptokens = TokensEconomy.getTokenManager(player);
-                                            TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                             if (amount1 >= TokensEconomy.getConfigManager().getMinPay() || amount2 >= TokensEconomy.getConfigManager().getMinPay()) {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
@@ -87,10 +90,10 @@ public class TPay implements CommandExecutor  {
                                 }
                             } else if (te.isH2()) {
                                 if (!H2UserData.getIgnore(receiver.getUniqueId())) {
-                                    if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(receiver)) {
+                                    TokenManager ptokens = TokensEconomy.getTokenManager(player);
+                                    TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
+                                    if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                                         if (receiver != player) {
-                                            TokenManager ptokens = TokensEconomy.getTokenManager(player);
-                                            TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                             if (amount1 >= TokensEconomy.getConfigManager().getMinPay() || amount2 >= TokensEconomy.getConfigManager().getMinPay()) {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
@@ -150,7 +153,8 @@ public class TPay implements CommandExecutor  {
                         player.sendMessage(ChatColor.RED + "Usage: /tpay <player> <amount>");
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required: " + ChatColor.GRAY + " te.pay or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             } else if (cmd.getName().equalsIgnoreCase("pay")) {
                 if (player.hasPermission("te.pay") || player.hasPermission("te.player")) {
@@ -163,10 +167,10 @@ public class TPay implements CommandExecutor  {
                         if (receiver != null) {
                             if (te.isMySQL()) {
                                 if (!UserData.getIgnore(receiver.getUniqueId())) {
-                                    if (!TokensEconomy.getConfigManager().hasMaxBalanceSQL(receiver)) {
+                                    TokenManager ptokens = TokensEconomy.getTokenManager(player);
+                                    TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
+                                    if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                                         if (receiver != player) {
-                                            TokenManager ptokens = TokensEconomy.getTokenManager(player);
-                                            TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                             if (amount1 >= TokensEconomy.getConfigManager().getMinPay() || amount2 >= TokensEconomy.getConfigManager().getMinPay()) {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
@@ -220,10 +224,10 @@ public class TPay implements CommandExecutor  {
                                 }
                             } else if (te.isH2()) {
                                 if (!H2UserData.getIgnore(receiver.getUniqueId())) {
-                                    if (!TokensEconomy.getConfigManager().hasMaxBalanceH2(receiver)) {
+                                    TokenManager ptokens = TokensEconomy.getTokenManager(player);
+                                    TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
+                                    if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                                         if (receiver != player) {
-                                            TokenManager ptokens = TokensEconomy.getTokenManager(player);
-                                            TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                             if (amount1 >= TokensEconomy.getConfigManager().getMinPay() || amount2 >= TokensEconomy.getConfigManager().getMinPay()) {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
@@ -283,7 +287,8 @@ public class TPay implements CommandExecutor  {
                         player.sendMessage(ChatColor.RED + "Usage: /tpay <player> <amount>");
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "Permission Required: " + ChatColor.GRAY + " te.pay or te.player");
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }
