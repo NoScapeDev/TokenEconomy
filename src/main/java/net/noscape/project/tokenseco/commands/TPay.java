@@ -98,14 +98,14 @@ public class TPay implements CommandExecutor  {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
                                                         if (isInt(args[1])) {
-                                                            UserData.addTokens(receiver.getUniqueId(), amount1);
-                                                            UserData.removeTokens(player.getUniqueId(), amount1);
+                                                            rtokens.addTokens(amount1);
+                                                            ptokens.removeTokens(amount1);
                                                             // send player & receiver confirmation message
                                                             player.sendMessage(Utils.applyFormat("&7You've sent &e" + amount1 + " &7Tokens to &e" + receiver.getName()));
                                                             receiver.sendMessage(Utils.applyFormat("&7You've received &e" + amount1 + " &7Tokens from &e" + player.getName()));
                                                         } else if (isDouble(args[1])) {
-                                                            UserData.addTokens(receiver.getUniqueId(), amount2);
-                                                            UserData.removeTokens(player.getUniqueId(), amount2);
+                                                            rtokens.addTokens((int) amount2);
+                                                            ptokens.removeTokens((int) amount2);
                                                             // send player & receiver confirmation message
                                                             player.sendMessage(Utils.applyFormat("&7You've sent &e" + amount2 + " &7Tokens to &e" + receiver.getName()));
                                                             receiver.sendMessage(Utils.applyFormat("&7You've received &e" + amount2 + " &7Tokens from &e" + player.getName()));
@@ -232,14 +232,14 @@ public class TPay implements CommandExecutor  {
                                                 if (amount1 <= TokensEconomy.getConfigManager().getMaxPay() || amount2 <= TokensEconomy.getConfigManager().getMaxPay()) {
                                                     if (ptokens.getTokens() >= amount1) {
                                                         if (isInt(args[1])) {
-                                                            UserData.addTokens(receiver.getUniqueId(), amount1);
-                                                            UserData.removeTokens(player.getUniqueId(), amount1);
+                                                            rtokens.addTokens(amount1);
+                                                            ptokens.removeTokens(amount1);
                                                             // send player & receiver confirmation message
                                                             player.sendMessage(Utils.applyFormat("&7You've sent &e" + amount1 + " &7Tokens to &e" + receiver.getName()));
                                                             receiver.sendMessage(Utils.applyFormat("&7You've received &e" + amount1 + " &7Tokens from &e" + player.getName()));
                                                         } else if (isDouble(args[1])) {
-                                                            UserData.addTokens(receiver.getUniqueId(), amount2);
-                                                            UserData.removeTokens(player.getUniqueId(), amount2);
+                                                            rtokens.addTokens((int) amount2);
+                                                            ptokens.removeTokens((int) amount2);
                                                             // send player & receiver confirmation message
                                                             player.sendMessage(Utils.applyFormat("&7You've sent &e" + amount2 + " &7Tokens to &e" + receiver.getName()));
                                                             receiver.sendMessage(Utils.applyFormat("&7You've received &e" + amount2 + " &7Tokens from &e" + player.getName()));
