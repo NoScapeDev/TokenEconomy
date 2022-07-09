@@ -47,6 +47,8 @@ t:
   support:
     # weather TE should be a vault dependency.
     tokeneco-vault-dependency: false
+    # allow Tokeneconomy to become the main economy usage, set true if you want TE as your main.
+    disable-essentials-eco: false
     # adds support to use base command for TE.
     base-commands:
       # allow people to use /pay to execute tpay command.
@@ -91,6 +93,8 @@ t:
     # value = the amount of tokens it will give the player on completing the events.
     # minus will remove a token from the player example, value: -5 = will remove 5 tokens
     events:
+      # weather or not token gain messages will show for events.
+      enable-messages: true
       # when a player dies
       player-death:
         value: -1 # minus will remove 'value' amount of tokens from the player balance

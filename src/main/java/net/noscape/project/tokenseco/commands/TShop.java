@@ -29,7 +29,7 @@ public class TShop implements CommandExecutor {
                     new TokenShop(TokensEconomy.getMenuUtil(player)).open();
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             } else if (cmd.getName().equalsIgnoreCase("shop")) {
                 if (player.hasPermission("te.shop") || player.hasPermission("te.player")) {
@@ -37,7 +37,7 @@ public class TShop implements CommandExecutor {
                     new TokenShop(TokensEconomy.getMenuUtil(player)).open();
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             }
         }

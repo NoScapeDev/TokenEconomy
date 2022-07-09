@@ -69,7 +69,7 @@ public class TToggle implements CommandExecutor {
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             }
         }

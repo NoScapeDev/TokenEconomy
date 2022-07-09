@@ -61,7 +61,7 @@ public class TokenShop extends Menu {
                         }
 
                         // confirmation
-                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens))));
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                         if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
                             player.playSound(player.getLocation(),
                                     Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.success")).toUpperCase()), 1, 1);
@@ -70,7 +70,7 @@ public class TokenShop extends Menu {
                         player.sendMessage(Utils.applyFormat("&cYou have reached the max token balance!"));
                     }
                 } else {
-                    player.sendMessage(Utils.applyFormat(TokensEconomy.getConfigManager().getMessages().getString("m.NOT_ENOUGH_MATERIALS")));
+                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.NOT_ENOUGH_MATERIALS")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                     if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
                         player.playSound(player.getLocation(),
                                 Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.failed")).toUpperCase()), 1, 1);

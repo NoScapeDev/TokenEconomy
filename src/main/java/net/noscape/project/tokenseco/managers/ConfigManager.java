@@ -53,8 +53,16 @@ public class ConfigManager {
         return Utils.applyFormat(getMessages().getString("m.PAY"));
     }
 
+    public String getEventMessage(String str, String tokens) {
+        return Utils.applyFormat(Objects.requireNonNull(getMessages().getString("m." + str)).replaceAll("%tokens%", tokens));
+    }
+
     public String getReload() {
         return Utils.applyFormat(getMessages().getString("m.RELOADED"));
+    }
+
+    public String getPrefix() {
+        return Utils.applyFormat(getMessages().getString("m.PREFIX"));
     }
 
     public int getDefaultTokens() {
@@ -83,6 +91,10 @@ public class ConfigManager {
 
     public int getMaxWithdraw() {
         return getConfig().getInt("t.player.bank.max-bank-withdraw");
+    }
+
+    public boolean isEventMessage() {
+        return getConfig().getBoolean("t.player.events.enable-messages");
     }
 
     public int getValue(String str) {

@@ -260,13 +260,13 @@ public class TAdmin implements CommandExecutor {
                         }
                     } else {
                         for (String admin_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.ADMIN-HELP")) {
-                            player.sendMessage(Utils.applyFormat(admin_help));
+                            player.sendMessage(Utils.applyFormat(admin_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                         }
                         return true;
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             }
         }

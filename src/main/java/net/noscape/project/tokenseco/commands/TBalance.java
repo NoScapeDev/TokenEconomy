@@ -36,18 +36,22 @@ public class TBalance implements CommandExecutor {
                             TokenManager tokensTarget = TokensEconomy.getTokenManager(player);
                             player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                     TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
-                                    String.valueOf(tokensTarget.getTokens()))));
+                                    String.valueOf(tokensTarget.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.balance.other");
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+
                     }
                 } else {
                     if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
-                                String.valueOf(tokens.getTokens()))));
+                                String.valueOf(tokens.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                     } else {
-                        player.sendMessage(ChatColor.RED + "Permission Required:" + ChatColor.GRAY + " te.balance or te.player");
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+
                     }
                 }
             } else if (cmd.getName().equalsIgnoreCase("balance")) {
@@ -60,20 +64,20 @@ public class TBalance implements CommandExecutor {
                             TokenManager tokensTarget = TokensEconomy.getTokenManager(player);
                             player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                     TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
-                                    String.valueOf(tokensTarget.getTokens()))));
+                                    String.valueOf(tokensTarget.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                         }
                     } else {
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                     }
                 } else {
                     if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
-                                String.valueOf(tokens.getTokens()))));
+                                String.valueOf(tokens.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                     } else {
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                     }
                 }
             }

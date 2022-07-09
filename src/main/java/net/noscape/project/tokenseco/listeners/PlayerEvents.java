@@ -3,7 +3,6 @@ package net.noscape.project.tokenseco.listeners;
 import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.managers.*;
-import net.noscape.project.tokenseco.utils.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
@@ -62,7 +61,10 @@ public class PlayerEvents implements Listener {
                         int tokens = TokensEconomy.getConfigManager().getValue("kill-players");
 
                         man.addTokens(tokens);
-                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a player!"));
+
+                        if (TokensEconomy.getConfigManager().isEventMessage()) {
+                            killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-KILL", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                        }
                     }
                 }
             }
@@ -78,7 +80,10 @@ public class PlayerEvents implements Listener {
                         int tokens = TokensEconomy.getConfigManager().getValue("kill-mobs");
 
                         man.addTokens(tokens);
-                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing a mob!"));
+
+                        if (TokensEconomy.getConfigManager().isEventMessage()) {
+                            killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-MOB", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                        }
                     }
                 }
             }
@@ -94,7 +99,10 @@ public class PlayerEvents implements Listener {
                         int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
 
                         man.addTokens(tokens);
-                        killer.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens for killing an animal!"));
+
+                        if (TokensEconomy.getConfigManager().isEventMessage()) {
+                            killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("ANIMAL-KILL", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                        }
                     }
                 }
             }
@@ -111,13 +119,19 @@ public class PlayerEvents implements Listener {
                     int value = Integer.parseInt(str);
 
                     man.removeTokens(value);
-                    victim.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for dying!"));
+
+                    if (TokensEconomy.getConfigManager().isEventMessage()) {
+                        victim.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-DEATH", "&c-" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    }
                 } else {
                     int value = Integer.parseInt(str);
 
                     if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                         man.addTokens(value);
-                        victim.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for dying!"));
+
+                        if (TokensEconomy.getConfigManager().isEventMessage()) {
+                            victim.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-DEATH", "&a+" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                        }
                     }
                 }
             }
@@ -135,7 +149,7 @@ public class PlayerEvents implements Listener {
                     int tokens = TokensEconomy.getConfigManager().getValue("crafting");
 
                     man.addTokens(tokens);
-                    player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
+                    player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("CRAFTING", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                 }
             }
         }
@@ -153,7 +167,10 @@ public class PlayerEvents implements Listener {
                     int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
 
                     man.addTokens(tokens);
-                    player.sendMessage(Utils.applyFormat("&e+" + tokens + " &7Tokens!"));
+
+                    if (TokensEconomy.getConfigManager().isEventMessage()) {
+                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("ADVANCEMENT", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    }
                 }
             }
         }
@@ -175,12 +192,18 @@ public class PlayerEvents implements Listener {
                 int value = Integer.parseInt(str);
 
                 man.removeTokens(value);
-                player.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for using the nether portal!"));
+
+                if (TokensEconomy.getConfigManager().isEventMessage()) {
+                    player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PORTAL-NETHER", "&c-" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                }
             } else {
                 int value = Integer.parseInt(str);
                 if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                     man.addTokens(value);
-                    player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
+
+                    if (TokensEconomy.getConfigManager().isEventMessage()) {
+                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PORTAL-NETHER", "&a+" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    }
                 }
             }
         } else {
@@ -196,12 +219,18 @@ public class PlayerEvents implements Listener {
                     int value = Integer.parseInt(str);
 
                     man.removeTokens(value);
-                    player.sendMessage(Utils.applyFormat("&c-" + value + " &7Tokens for using the nether portal!"));
+
+                    if (TokensEconomy.getConfigManager().isEventMessage()) {
+                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PORTAL-END", "&c-" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    }
                 } else {
                     int value = Integer.parseInt(str);
                     if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                         man.addTokens(value);
-                        player.sendMessage(Utils.applyFormat("&e+" + value + " &7Tokens for using the nether portal!"));
+
+                        if (TokensEconomy.getConfigManager().isEventMessage()) {
+                            player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PORTAL-END", "&a+" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                        }
                     }
                 }
             }

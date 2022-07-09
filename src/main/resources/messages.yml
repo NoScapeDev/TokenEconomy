@@ -1,19 +1,33 @@
 # plugin placeholders:
+# * %PREFIX% - displays the plugins prefix 'prefix: "__"'
 # * %receiver_name% - gets the player name of the receiving tokens.
 # * %receiver_displayname% - gets the player displayname of the receiving tokens.
 # * %tokens% - gets the value of current set/get/received tokens in the message.
 # * TokensECO also supports placeholderapi.
 m:
+  # plugin prefix
+  PREFIX: '&8[&b&lTokenEco&8]'
+
   # design formats > token symbols [ ⛀ ⛂ ⛁ ⛃ ]
   SYMBOL: '⛃'
 
   # token balance
   BALANCE: '&7Balance: &e⛃&f%tokens% tokens'
 
+  # event messages
+  PLAYER-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a Mob!'
+  PLAYER-DEATH: '%PREFIX% &f%tokens% &7Tokens for&c Your own Death!'
+  MOB-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a Mob!'
+  ANIMAL-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing an Animal!'
+  CRAFTING: '%PREFIX% &f%tokens% &7Tokens for&a Crafting an Item!'
+  ADVANCEMENT: '%PREFIX% &f%tokens% &7Tokens for&a Unlocking an Advancement!'
+  PORTAL-NETHER: '%PREFIX% &f%tokens% &7Tokens for&a Entering the Nether!'
+  PORTAL-END: '%PREFIX% &f%tokens% &7Tokens for&a Entering the End!'
+
   # bank messages
-  BANK-BALANCE: '&7Bank Balance: &b⛃&f%tokens% tokens'
-  BANK-WITHDRAW: '&eBank> &f%amount% &7tokens have been removed & added to you token balance.'
-  BANK-DEPOSIT: '&eBank> &f%amount% &7tokens have been added into the bank.'
+  BANK-BALANCE: '%PREFIX% &7Bank Balance: &b⛃&f%tokens% tokens'
+  BANK-WITHDRAW: '%PREFIX% &f%amount% &7tokens have been removed & added to you token balance.'
+  BANK-DEPOSIT: '%PREFIX% &f%amount% &7tokens have been added into the bank.'
   BANK-HELP:
     - '&bToken Bank Commands:'
     - ''
@@ -40,17 +54,17 @@ m:
   RECEIVED: '&e&lTOKENS &7You have received &e%tokens% &7tokens into your account!'
 
   # checked messages
-  MAX-DEPOSIT: '&cBank> &7You tried depositing too much.'
-  MIN-DEPOSIT: '&cBank> &7You tried depositing too little.'
-  MAX-WITHDRAW: '&cBank> &7You tried withdrawing too much.'
-  MIN-WITHDRAW: '&cBank> &7You tried withdrawing too little.'
-  NOT-ENOUGH-TO-WITHDRAW: '&cBank> &7You''re trying to withdraw more than you have.'
-  NOT-ENOUGH-TO-DEPOSIT: '&cBank> &7Not enough tokens to deposit into your bank.'
-  NOT_ENOUGH_MATERIALS: '&cYou don''t have enough materials to get this!'
-  NOT_ENOUGH_TOKENS: '&cYou don''t have enough tokens!'
-  SEND_YOUR_SELF: '&cYou cannot send tokens to yourself!'
+  MAX-DEPOSIT: '%PREFIX%  &7You tried depositing too much.'
+  MIN-DEPOSIT: '%PREFIX%  &7You tried depositing too little.'
+  MAX-WITHDRAW: '%PREFIX% &7You tried withdrawing too much.'
+  MIN-WITHDRAW: '%PREFIX% &7You tried withdrawing too little.'
+  NOT-ENOUGH-TO-WITHDRAW: '%PREFIX% &7You''re trying to withdraw more than you have.'
+  NOT-ENOUGH-TO-DEPOSIT: '%PREFIX% &7Not enough tokens to deposit into your bank.'
+  NOT_ENOUGH_MATERIALS: '%PREFIX% &cYou don''t have enough materials to get this!'
+  NOT_ENOUGH_TOKENS: '%PREFIX% &cYou don''t have enough tokens!'
+  SEND_YOUR_SELF: '%PREFIX% &cYou cannot send tokens to yourself!'
 
   # plugin messages
-  RELOADED: '&e&lADMIN &7Plugin Reloaded'
-  PERMISSION: '&cYou have no permission to use this!'
+  RELOADED: '%PREFIX% &7Plugin Reloaded'
+  PERMISSION: '%PREFIX% &cYou have no permission to use this!'
 

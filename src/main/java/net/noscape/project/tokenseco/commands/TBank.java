@@ -27,15 +27,15 @@ public class TBank implements CommandExecutor {
 
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-BALANCE")).replaceAll("%tokens%",
-                                String.valueOf(bank.getBank()))));
+                                String.valueOf(bank.getBank()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                     } else if (args.length == 1) {
                         if (args[0].equalsIgnoreCase("help")) {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         } else {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         }
                     } else if (args.length == 2) {
@@ -56,18 +56,18 @@ public class TBank implements CommandExecutor {
 
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-WITHDRAW")).replaceAll("%amount%",
-                                                String.valueOf(amount))));
+                                                String.valueOf(amount)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     } else {
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-WITHDRAW"))));
+                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     }
                                 } else {
                                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-WITHDRAW"))));
+                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                 }
                             } else {
                                 player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-WITHDRAW"))));
+                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                             }
                         }
 
@@ -84,28 +84,28 @@ public class TBank implements CommandExecutor {
 
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-DEPOSIT")).replaceAll("%amount%",
-                                                String.valueOf(amount))));
+                                                String.valueOf(amount)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     } else {
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-DEPOSIT"))));
+                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     }
                                 } else {
                                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-DEPOSIT"))));
+                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                 }
                             } else {
                                 player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-DEPOSIT"))));
+                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                             }
                         } else {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         }
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             } else if (cmd.getName().equalsIgnoreCase("bank")) {
                 if (player.hasPermission("te.bank") || player.hasPermission("te.player")) {
@@ -114,15 +114,15 @@ public class TBank implements CommandExecutor {
 
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-BALANCE")).replaceAll("%tokens%",
-                                String.valueOf(bank.getBank()))));
+                                String.valueOf(bank.getBank()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                     } else if (args.length == 1) {
                         if (args[0].equalsIgnoreCase("help")) {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         } else {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         }
                     } else if (args.length == 2) {
@@ -143,18 +143,18 @@ public class TBank implements CommandExecutor {
 
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-WITHDRAW")).replaceAll("%amount%",
-                                                String.valueOf(amount))));
+                                                String.valueOf(amount)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     } else {
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-WITHDRAW"))));
+                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     }
                                 } else {
                                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-WITHDRAW"))));
+                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                 }
                             } else {
                                 player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-WITHDRAW"))));
+                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-WITHDRAW")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                             }
                         }
 
@@ -171,28 +171,28 @@ public class TBank implements CommandExecutor {
 
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-DEPOSIT")).replaceAll("%amount%",
-                                                String.valueOf(amount))));
+                                                String.valueOf(amount)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     } else {
                                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-DEPOSIT"))));
+                                                TokensEconomy.getConfigManager().getMessages().getString("m.NOT-ENOUGH-TO-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                     }
                                 } else {
                                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-DEPOSIT"))));
+                                            TokensEconomy.getConfigManager().getMessages().getString("m.MIN-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                                 }
                             } else {
                                 player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-DEPOSIT"))));
+                                        TokensEconomy.getConfigManager().getMessages().getString("m.MAX-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                             }
                         } else {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help));
+                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             }
                         }
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             }
         }

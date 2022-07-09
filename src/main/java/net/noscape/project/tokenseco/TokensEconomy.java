@@ -3,6 +3,7 @@ package net.noscape.project.tokenseco;
 import net.milkbowl.vault.economy.*;
 import net.noscape.project.tokenseco.commands.*;
 import net.noscape.project.tokenseco.data.*;
+import net.noscape.project.tokenseco.hook.*;
 import net.noscape.project.tokenseco.listeners.*;
 import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.api.*;
@@ -179,11 +180,9 @@ public final class TokensEconomy extends JavaPlugin {
             h2 = new H2Database(connectionURL);
         }
 
+        // load economy vault
         if (getConfig().getBoolean("t.support.tokeneco-vault-dependency")) {
-            if (!setupVault()) {
-                Bukkit.getConsoleSender().sendMessage("Vault-Setup: vault support in config is enabled but 'Vault Plugin' seems to be missing...");
-                Bukkit.getPluginManager().disablePlugin(this);
-            }
+            LoadHook.load();
         }
 
         config = new ConfigManager(getInstance().getConfig(), messageConfig, tokenShopConfig, tokenTopConfig);
@@ -192,7 +191,12 @@ public final class TokensEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // stop
+
+
+        // unload economy vault.
+        if (getConfig().getBoolean("t.support.tokeneco-vault-dependency")) {
+            LoadHook.unload();
+        }
     }
 
     public static TokensEconomy getInstance() {
