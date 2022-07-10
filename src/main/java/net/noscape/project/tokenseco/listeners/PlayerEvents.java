@@ -35,8 +35,8 @@ public class PlayerEvents implements Listener {
             BankManager bank = TokensEconomy.getBankManager(player);
 
             if (te.isMySQL()) {
-                UserData.setTokens(player.getUniqueId(), tokens.getTokens());
-                UserData.setBank(player.getUniqueId(), bank.getBank());
+                MySQLUserData.setTokens(player.getUniqueId(), tokens.getTokens());
+                MySQLUserData.setBank(player.getUniqueId(), bank.getBank());
             } else if (te.isH2()) {
                 H2UserData.setTokens(player.getUniqueId(), tokens.getTokens());
                 H2UserData.setBank(player.getUniqueId(), bank.getBank());

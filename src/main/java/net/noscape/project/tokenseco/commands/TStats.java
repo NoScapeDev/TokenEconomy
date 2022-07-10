@@ -25,8 +25,8 @@ public class TStats implements CommandExecutor {
                 if (player.hasPermission("te.stats") || player.hasPermission("te.player")) {
                     if (te.isMySQL()) {
                         player.sendMessage(Utils.applyFormat("&e&lTOKEN STATS &8&l>"));
-                        player.sendMessage(Utils.applyFormat("&7Server Total: &e" + UserData.getServerTotalTokens()));
-                        player.sendMessage(Utils.applyFormat("&7Your Balance: &e" + UserData.getTokensDouble(player.getUniqueId())));
+                        player.sendMessage(Utils.applyFormat("&7Server Total: &e" + MySQLUserData.getServerTotalTokens()));
+                        player.sendMessage(Utils.applyFormat("&7Your Balance: &e" + MySQLUserData.getTokensDouble(player.getUniqueId())));
                     } else if (te.isH2()) {
                         player.sendMessage(Utils.applyFormat("&e&lTOKEN STATS &8&l>"));
                         player.sendMessage(Utils.applyFormat("&7Server Total: &e" + H2UserData.getServerTotalTokens()));

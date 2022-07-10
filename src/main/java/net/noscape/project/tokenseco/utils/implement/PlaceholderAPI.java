@@ -46,7 +46,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 text = String.valueOf(man.getTokens());
             } else {
                 if (plugin.isMySQL()) {
-                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
                 } else if (plugin.isH2()) {
                     text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
                 }
@@ -63,7 +63,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 text = String.valueOf(bank.getBank());
             } else {
                 if (plugin.isMySQL()) {
-                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
                 } else if (plugin.isH2()) {
                     text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
                 }
@@ -80,7 +80,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 text = TokensEconomy.getConfigManager().getTokenSymbol() + man.getTokens();
             } else {
                 if (plugin.isMySQL()) {
-                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
                 } else if (plugin.isH2()) {
                     text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
                 }
@@ -97,7 +97,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 text = TokensEconomy.getConfigManager().getTokenSymbol() + bank.getBank();
             } else {
                 if (plugin.isMySQL()) {
-                    text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
+                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
                 } else if (plugin.isH2()) {
                     text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
                 }

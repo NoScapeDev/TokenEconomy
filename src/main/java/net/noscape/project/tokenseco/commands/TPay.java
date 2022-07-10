@@ -32,7 +32,7 @@ public class TPay implements CommandExecutor  {
 
                         if (receiver != null) {
                             if (te.isMySQL()) {
-                                if (!UserData.getIgnore(receiver.getUniqueId())) {
+                                if (!MySQLUserData.getIgnore(receiver.getUniqueId())) {
                                     TokenManager ptokens = TokensEconomy.getTokenManager(player);
                                     TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                     if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
@@ -166,7 +166,7 @@ public class TPay implements CommandExecutor  {
 
                         if (receiver != null) {
                             if (te.isMySQL()) {
-                                if (!UserData.getIgnore(receiver.getUniqueId())) {
+                                if (!MySQLUserData.getIgnore(receiver.getUniqueId())) {
                                     TokenManager ptokens = TokensEconomy.getTokenManager(player);
                                     TokenManager rtokens = TokensEconomy.getTokenManager(receiver);
                                     if (!(rtokens.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {

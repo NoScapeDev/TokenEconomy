@@ -40,7 +40,7 @@ public class TokenTop extends Menu {
 
         // add all entries.
         if (te.isMySQL()) {
-            for (String top : UserData.getTop10().keySet()) {
+            for (String top : MySQLUserData.getTop10().keySet()) {
                 inventory.addItem(getSkull(top, top.indexOf(top)));
             }
         } else if (te.isH2()) {
@@ -78,7 +78,7 @@ public class TokenTop extends Menu {
 
         assert displayname != null;
         if (te.isMySQL()) {
-            displayname = displayname.replaceAll("%tokens%", String.valueOf(UserData.getTokensDoubleByName(name)));
+            displayname = displayname.replaceAll("%tokens%", String.valueOf(MySQLUserData.getTokensDoubleByName(name)));
         } else if (te.isH2()) {
             displayname = displayname.replaceAll("%tokens%", String.valueOf(H2UserData.getTokensDoubleByName(name)));
         }
@@ -98,7 +98,7 @@ public class TokenTop extends Menu {
         assert item_meta != null;
 
         if (te.isMySQL()) {
-            item_meta.setDisplayName(name.replaceAll("%tokens%", String.valueOf(UserData.getTokensDoubleByName(player))));
+            item_meta.setDisplayName(name.replaceAll("%tokens%", String.valueOf(MySQLUserData.getTokensDoubleByName(player))));
         } else if (te.isH2()) {
             item_meta.setDisplayName(name.replaceAll("%tokens%", String.valueOf(H2UserData.getTokensDoubleByName(player))));
         }

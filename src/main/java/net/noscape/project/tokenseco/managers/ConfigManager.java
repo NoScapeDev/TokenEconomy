@@ -26,7 +26,7 @@ public class ConfigManager {
     }
 
     public String getBalanceSQL(Player player) {
-        return Utils.applyFormat(Objects.requireNonNull(this.getMessages().getString("m.BALANCE")).replaceAll("%tokens%", String.valueOf(UserData.getTokensDouble(player.getUniqueId()))));
+        return Utils.applyFormat(Objects.requireNonNull(this.getMessages().getString("m.BALANCE")).replaceAll("%tokens%", String.valueOf(MySQLUserData.getTokensDouble(player.getUniqueId()))));
     }
 
     public String getBalanceH2(Player player) {

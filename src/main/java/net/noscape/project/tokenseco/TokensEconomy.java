@@ -28,7 +28,7 @@ public final class TokensEconomy extends JavaPlugin {
     private final H2UserData h2user = new H2UserData();
     private TokenManager tm;
     private static String connectionURL;
-    private final UserData user = new UserData();
+    private final MySQLUserData user = new MySQLUserData();
     public static TokenAPI tokenAPI;
     private EconomyVault eco_vault;
     private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
@@ -207,7 +207,7 @@ public final class TokensEconomy extends JavaPlugin {
         return config;
     }
 
-    public static UserData getUser() {
+    public static MySQLUserData getUser() {
         return instance.user;
     }
 
@@ -239,7 +239,7 @@ public final class TokensEconomy extends JavaPlugin {
             if (bankMap.containsKey(player)) {
                 return bankMap.get(player);
             } else {
-                bank = new BankManager(player, UserData.getBankInt(player.getUniqueId()));
+                bank = new BankManager(player, MySQLUserData.getBankInt(player.getUniqueId()));
                 bankMap.put(player, bank);
             }
         } else if (TokensEconomy.instance.isH2()) {
@@ -261,7 +261,7 @@ public final class TokensEconomy extends JavaPlugin {
             if (tokenMap.containsKey(player)) {
                 return tokenMap.get(player);
             } else {
-                token = new TokenManager(player, UserData.getTokensInt(player.getUniqueId()));
+                token = new TokenManager(player, MySQLUserData.getTokensInt(player.getUniqueId()));
                 tokenMap.put(player, token);
             }
         } else if (TokensEconomy.instance.isH2()) {

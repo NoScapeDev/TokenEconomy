@@ -70,7 +70,7 @@ public class TAdmin implements CommandExecutor {
                     if (option.equalsIgnoreCase("give")) {
                         if (!receiver.isOnline()) {
                             if (te.isMySQL()) {
-                                UserData.addTokens(receiver.getUniqueId(), amount1);
+                                MySQLUserData.addTokens(receiver.getUniqueId(), amount1);
                             } else if (te.isH2()) {
                                 H2UserData.addTokens(receiver.getUniqueId(), amount1);
                             }
@@ -84,7 +84,7 @@ public class TAdmin implements CommandExecutor {
                     } else if (option.equalsIgnoreCase("set")) {
                         if (!receiver.isOnline()) {
                             if (te.isMySQL()) {
-                                UserData.setTokens(receiver.getUniqueId(), amount1);
+                                MySQLUserData.setTokens(receiver.getUniqueId(), amount1);
                             } else if (te.isH2()) {
                                 H2UserData.setTokens(receiver.getUniqueId(), amount1);
                             }
@@ -98,7 +98,7 @@ public class TAdmin implements CommandExecutor {
                     } else if (option.equalsIgnoreCase("remove")) {
                         if (!receiver.isOnline()) {
                             if (te.isMySQL()) {
-                                UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                MySQLUserData.removeTokens(receiver.getUniqueId(), amount1);
                             } else if (te.isH2()) {
                                 H2UserData.removeTokens(receiver.getUniqueId(), amount1);
                             }
@@ -169,7 +169,7 @@ public class TAdmin implements CommandExecutor {
                             if (option.equalsIgnoreCase("give")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.addTokens(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.addTokens(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.addTokens(receiver.getUniqueId(), amount1);
                                     }
@@ -183,7 +183,7 @@ public class TAdmin implements CommandExecutor {
                             } else if (option.equalsIgnoreCase("set")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.setTokens(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.setTokens(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.setTokens(receiver.getUniqueId(), amount1);
                                     }
@@ -197,7 +197,7 @@ public class TAdmin implements CommandExecutor {
                             } else if (option.equalsIgnoreCase("remove")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.removeTokens(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.removeTokens(receiver.getUniqueId(), amount1);
                                     }
@@ -215,7 +215,7 @@ public class TAdmin implements CommandExecutor {
                             if (option.equalsIgnoreCase("give")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.addBank(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.addBank(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.addBank(receiver.getUniqueId(), amount1);
                                     }
@@ -229,7 +229,7 @@ public class TAdmin implements CommandExecutor {
                             } else if (option.equalsIgnoreCase("set")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.setBank(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.setBank(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.setBank(receiver.getUniqueId(), amount1);
                                     }
@@ -243,7 +243,7 @@ public class TAdmin implements CommandExecutor {
                             } else if (option.equalsIgnoreCase("remove")) {
                                 if (!receiver.isOnline()) {
                                     if (te.isMySQL()) {
-                                        UserData.removeBank(receiver.getUniqueId(), amount1);
+                                        MySQLUserData.removeBank(receiver.getUniqueId(), amount1);
                                     } else if (te.isH2()) {
                                         H2UserData.removeBank(receiver.getUniqueId(), amount1);
                                     }

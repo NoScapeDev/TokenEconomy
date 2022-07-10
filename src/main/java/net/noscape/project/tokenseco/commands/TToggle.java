@@ -27,11 +27,11 @@ public class TToggle implements CommandExecutor {
                 if (player.hasPermission("te.toggle")) {
                     // /tbalance - giving the player their balance
                     if (te.isMySQL()) {
-                        if (UserData.getIgnore(player.getUniqueId())) {
-                            UserData.setIgnore(player.getUniqueId(), false);
+                        if (MySQLUserData.getIgnore(player.getUniqueId())) {
+                            MySQLUserData.setIgnore(player.getUniqueId(), false);
                             player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will now be able to send you tokens!"));
                         } else {
-                            UserData.setIgnore(player.getUniqueId(), true);
+                            MySQLUserData.setIgnore(player.getUniqueId(), true);
                             player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will no longer be able to send you tokens!"));
                         }
                     } else if (te.isH2()) {
@@ -51,11 +51,11 @@ public class TToggle implements CommandExecutor {
                 if (player.hasPermission("te.toggle")) {
                     // /tbalance - giving the player their balance
                     if (te.isMySQL()) {
-                        if (UserData.getIgnore(player.getUniqueId())) {
-                            UserData.setIgnore(player.getUniqueId(), false);
+                        if (MySQLUserData.getIgnore(player.getUniqueId())) {
+                            MySQLUserData.setIgnore(player.getUniqueId(), false);
                             player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will now be able to send you tokens!"));
                         } else {
-                            UserData.setIgnore(player.getUniqueId(), true);
+                            MySQLUserData.setIgnore(player.getUniqueId(), true);
                             player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will no longer be able to send you tokens!"));
                         }
                     } else if (te.isH2()) {

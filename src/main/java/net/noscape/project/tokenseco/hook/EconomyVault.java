@@ -88,7 +88,7 @@ public class EconomyVault implements Economy {
 
         if (!player.isOnline()) {
             if (TokensEconomy.getInstance().isMySQL()) {
-                amount = UserData.getTokensInt(player.getUniqueId());
+                amount = MySQLUserData.getTokensInt(player.getUniqueId());
             } else if (TokensEconomy.getInstance().isMySQL()) {
                 amount = H2UserData.getTokensInt(player.getUniqueId());
             }
@@ -106,7 +106,7 @@ public class EconomyVault implements Economy {
 
         if (!player.isOnline()) {
             if (TokensEconomy.getInstance().isMySQL()) {
-                amount = UserData.getTokensInt(player.getUniqueId());
+                amount = MySQLUserData.getTokensInt(player.getUniqueId());
             } else if (TokensEconomy.getInstance().isMySQL()) {
                 amount = H2UserData.getTokensInt(player.getUniqueId());
             }
