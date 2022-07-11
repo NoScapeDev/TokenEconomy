@@ -45,11 +45,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 TokenManager man = TokensEconomy.getTokenManager(player);
                 text = String.valueOf(man.getTokens());
             } else {
-                if (plugin.isMySQL()) {
-                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
-                } else if (plugin.isH2()) {
-                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
-                }
+                text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
             }
             
             return text;
@@ -62,11 +58,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 BankManager bank = TokensEconomy.getBankManager(player);
                 text = String.valueOf(bank.getBank());
             } else {
-                if (plugin.isMySQL()) {
-                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
-                } else if (plugin.isH2()) {
-                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
-                }
+                text = String.valueOf(UserData.getBankInt(player.getUniqueId()));
             }
 
             return text;
@@ -79,11 +71,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 TokenManager man = TokensEconomy.getTokenManager(player);
                 text = TokensEconomy.getConfigManager().getTokenSymbol() + man.getTokens();
             } else {
-                if (plugin.isMySQL()) {
-                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
-                } else if (plugin.isH2()) {
-                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
-                }
+                text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
             }
 
             return text;
@@ -96,11 +84,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 BankManager bank = TokensEconomy.getBankManager(player);
                 text = TokensEconomy.getConfigManager().getTokenSymbol() + bank.getBank();
             } else {
-                if (plugin.isMySQL()) {
-                    text = String.valueOf(MySQLUserData.getTokensInt(player.getUniqueId()));
-                } else if (plugin.isH2()) {
-                    text = String.valueOf(H2UserData.getTokensInt(player.getUniqueId()));
-                }
+                text = String.valueOf(UserData.getTokensInt(player.getUniqueId()));
             }
 
             return text;
