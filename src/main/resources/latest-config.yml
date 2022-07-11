@@ -23,18 +23,8 @@ t:
     options: 'useSSL=false&autoReconnect=true'
 
   plugin:
-    # weather or not /tshop is enabled?
-    token-shop: true
     # how many entries should /tbaltop pull. Recommended: 1 - 20
     leaderboard-entries: 10 # 10 will pull the top 10 players who have the most tokens.
-    # weather or not /tpay is enabled?
-    token-pay: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
-    # weather or not /ttoggle is enabled?
-    token-toggle: true # WILL NEED A RESTART ON SETTING TRUE/FALSE
-    # weather or not /tstats is enabled?
-    token-stats: true
-    # weather or not bank system is enabled.
-    token-bank: true
 
   # global restrictions, disable token gain in certain objects.
   restrictions:
@@ -51,18 +41,11 @@ t:
     disable-essentials-eco: false
     # adds support to use base command for TE.
     base-commands:
-      # allow people to use /pay to execute tpay command.
       pay: false
-      # allow people to use /balance to execute tbalance command.
       balance: false
-      # allow people to use /baltop to open tbaltop gui.
       baltop: false
-      # allow people to use /shop to open tshop gui.
-      shop: false
-      # allow people to use /toggle to execute ttoggle command.
+      exchange: false
       toggle: false
-      # allow people to use /bank to execute tbank command
-      bank: false
 
   # standalone player settings.
   player:
@@ -88,7 +71,7 @@ t:
       # Maximum amount someone can withdraw.
       max-bank-withdraw: 50000000
       # should token shop use bank balance? if true, this will add to normal token balance.
-      shop-bank-balance: false
+      exchange-bank-balance: false
 
     # value = the amount of tokens it will give the player on completing the events.
     # minus will remove a token from the player example, value: -5 = will remove 5 tokens

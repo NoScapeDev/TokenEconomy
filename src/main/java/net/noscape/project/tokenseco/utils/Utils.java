@@ -1,6 +1,7 @@
 package net.noscape.project.tokenseco.utils;
 
-import net.md_5.bungee.api.*;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.*;
 
 import java.util.*;
 import java.util.regex.*;
@@ -18,10 +19,17 @@ public class Utils {
             message = before + hexColor + after;
             matcher = hexPattern.matcher(message);
         }
+
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public static List<String> applyFormatList(List<String> message) {
         return Collections.singletonList(ChatColor.translateAlternateColorCodes('&', String.valueOf(message)));
+    }
+
+    public static void msgPlayer(Player player, String... str) {
+        for (String msg : str) {
+            player.sendMessage(applyFormat(msg));
+        }
     }
 }

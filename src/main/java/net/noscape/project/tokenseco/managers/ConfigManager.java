@@ -11,13 +11,13 @@ public class ConfigManager {
 
     private final FileConfiguration config;
     private final FileConfiguration messages;
-    private final FileConfiguration tokenshop;
+    private final FileConfiguration tokenexchange;
     private final FileConfiguration tokentop;
 
-    public ConfigManager(FileConfiguration config, FileConfiguration messages, FileConfiguration tokenshop, FileConfiguration tokentop) {
+    public ConfigManager(FileConfiguration config, FileConfiguration messages, FileConfiguration tokenexchange, FileConfiguration tokentop) {
         this.config = config;
         this.messages = messages;
-        this.tokenshop = tokenshop;
+        this.tokenexchange = tokenexchange;
         this.tokentop = tokentop;
     }
 
@@ -26,7 +26,7 @@ public class ConfigManager {
     }
 
     public String getBalanceSQL(Player player) {
-        return Utils.applyFormat(Objects.requireNonNull(this.getMessages().getString("m.BALANCE")).replaceAll("%tokens%", String.valueOf(UserData.getTokensDouble(player.getUniqueId()))));
+        return Utils.applyFormat(Objects.requireNonNull(this.getMessages().getString("m.BALANCE")).replaceAll("%tokens%", String.valueOf(MySQLUserData.getTokensDouble(player.getUniqueId()))));
     }
 
     public String getBalanceH2(Player player) {
@@ -114,7 +114,7 @@ public class ConfigManager {
     }
 
     public String getTitleShop() {
-        return getTokenshop().getString("gui.title");
+        return getTokenExchange().getString("gui.title");
     }
 
     public String getTitleTop() {
@@ -122,7 +122,7 @@ public class ConfigManager {
     }
 
     public int getSlotsShop() {
-        return getTokenshop().getInt("gui.slots");
+        return getTokenExchange().getInt("gui.slots");
     }
 
     public int getSlotsTop() {
@@ -130,7 +130,7 @@ public class ConfigManager {
     }
 
     public boolean isBankBalanceShop() {
-        return getConfig().getBoolean("t.player.bank.shop-bank-balance");
+        return getConfig().getBoolean("t.player.bank.exchange-bank-balance");
     }
 
     public boolean isCommandCosts() {
@@ -163,7 +163,7 @@ public class ConfigManager {
 
     public List<String> getItems() {
         List<String> itemNames = new ArrayList<>();
-        for (String items : Objects.requireNonNull(getTokenshop().getConfigurationSection("gui.items")).getKeys(false))
+        for (String items : Objects.requireNonNull(getTokenExchange().getConfigurationSection("gui.items")).getKeys(false))
             itemNames.add(items);
 
         return itemNames;
@@ -177,8 +177,8 @@ public class ConfigManager {
         return messages;
     }
 
-    public FileConfiguration getTokenshop() {
-        return tokenshop;
+    public FileConfiguration getTokenExchange() {
+        return tokenexchange;
     }
 
     public FileConfiguration getTokenTop() {

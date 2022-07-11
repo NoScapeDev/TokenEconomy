@@ -31,10 +31,11 @@ m:
   BANK-HELP:
     - '&bToken Bank Commands:'
     - ''
-    - '&b/tbank &7- will display your bank balance.'
-    - '&b/tbank [help] &7- will display this help page.'
-    - '&b/tbank [withdraw] <amount> &7- withdraw money from your bank.'
-    - '&b/tbank [deposit] <amount> &7- deposit money into your bank.'
+    - '&3/bank &7- will display your bank balance.'
+    - '&3/bank [help] &7- will display this help page.'
+    - '&3/bank [withdraw] <amount> &7- withdraw money from your bank.'
+    - '&3/bank [deposit] <amount> &7- deposit money into your bank.'
+    - ''
     - '&b<> &7Required. &b[] &7Optional.'
 
   # admin messages

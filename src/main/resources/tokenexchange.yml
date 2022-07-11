@@ -1,0 +1,55 @@
+gui:
+  title: '&8&nToken Exchange'
+  slots: 27
+  item-exchange: 'EMERALD'
+  sound:
+    enable: true
+    success: 'ENTITY_PLAYER_LEVELUP'
+    failed: 'BLOCK_NOTE_BLOCK_BASS'
+  # 1 emerald = 15 tokens
+  items:
+    1:
+      displayname: '&e&l15 Tokens' # item name it will display in the shop gui.
+      lore: # lore will be placed on to the item displaying information below.
+        - '&71x emerald for &e15 &7tokens.'
+      slot: 9 # slot this item will go in /tshop.
+      amount: 1 # also how many 'item-exchange' material it will remove from the players inventory.
+      material: 'EMERALD' # material that will be displayed for this item in-side the tshop gui.
+      glow: true # will add a glow effect to the item inside the gui.
+      tokens: 15 # how many tokens it will give the player  on having & clicking the this item.
+    2:
+      displayname: '&e&l150 Tokens'
+      lore:
+        - '&710x emerald for &e150 &7tokens.'
+      slot: 11
+      amount: 10
+      material: 'EMERALD'
+      glow: true
+      tokens: 150
+    3:
+      displayname: '&e&l450 Tokens'
+      lore:
+        - '&730x emerald for &e450 &7tokens.'
+      slot: 13
+      amount: 30
+      material: 'EMERALD'
+      glow: true
+      tokens: 450
+    4:
+      displayname: '&e&l675 Tokens'
+      lore:
+        - '&745x emerald for &e675 &7tokens.'
+      slot: 15
+      amount: 45
+      glow: true
+      material: 'EMERALD'
+      tokens: 675
+    5:
+      displayname: '&e&l960 Tokens'
+      lore:
+        - '&764x emerald for &e960 &7tokens.'
+      slot: 17
+      amount: 64
+      material: 'EMERALD'
+      glow: true
+      tokens: 960

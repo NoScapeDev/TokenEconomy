@@ -7,22 +7,11 @@ description: New tokens economy for buying/trading!
 softdepend: [PlaceholderAPI, Vault]
 
 commands:
-  tshop:
-    description: tshop
+  tokens:
+    aliases: [token, te]
   tadmin:
-    description: tadmin
-  tbalance:
-    aliases: [tbal, tokenbal]
-  tbaltop:
-    aliases: [ttop, tokentop]
-  tpay:
-    aliases: [tokenpay, tgive]
-  ttoggle:
-    aliases: [tokentoggle, togglepay]
-  tstats:
-    aliases: [tokenstats]
-  shop:
-    aliases: [shoptoken]
+    description: tadmin main command.
+  exchange:
   balance:
     aliases: [balance, tokens]
   baltop:
@@ -32,6 +21,4 @@ commands:
   toggle:
     aliases: [toggletoken]
   bank:
-    description: bank system command
-  tbank:
     description: bank system command

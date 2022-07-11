@@ -15,16 +15,11 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
 
-        if (te.isMySQL()) {
-            TokensEconomy.getUser().createPlayer(e.getPlayer());
-            TokensEconomy.getTokenManager(e.getPlayer());
-            TokensEconomy.getBankManager(e.getPlayer());
-        } else if (te.isH2()) {
-            TokensEconomy.getH2user().createPlayer(e.getPlayer());
-            TokensEconomy.getTokenManager(e.getPlayer());
-            TokensEconomy.getBankManager(e.getPlayer());
-        }
+        UserData.createUserAccount(player);
+        TokensEconomy.getTokenManager(player);
+        TokensEconomy.getBankManager(player);
     }
 
     @EventHandler
@@ -34,13 +29,8 @@ public class PlayerEvents implements Listener {
             TokenManager tokens = TokensEconomy.getTokenManager(player);
             BankManager bank = TokensEconomy.getBankManager(player);
 
-            if (te.isMySQL()) {
-                UserData.setTokens(player.getUniqueId(), tokens.getTokens());
-                UserData.setBank(player.getUniqueId(), bank.getBank());
-            } else if (te.isH2()) {
-                H2UserData.setTokens(player.getUniqueId(), tokens.getTokens());
-                H2UserData.setBank(player.getUniqueId(), bank.getBank());
-            }
+            UserData.setTokens(player.getUniqueId(), tokens.getTokens());
+            UserData.setBank(player.getUniqueId(), bank.getBank());
 
             TokensEconomy.getTokenMap().remove(e.getPlayer());
             TokensEconomy.getBankMap().remove(e.getPlayer());

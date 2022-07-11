@@ -4,15 +4,19 @@ import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.managers.*;
 import net.noscape.project.tokenseco.utils.*;
+import net.noscape.project.tokenseco.utils.menu.menus.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 
 import java.util.*;
 
-public class TPay implements CommandExecutor  {
+import static net.noscape.project.tokenseco.utils.Utils.msgPlayer;
+
+public class TokenCommand implements CommandExecutor {
 
     private final TokensEconomy te = TokensEconomy.getPlugin(TokensEconomy.class);
+    private final ConfigManager config = TokensEconomy.getConfigManager();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -22,13 +26,112 @@ public class TPay implements CommandExecutor  {
 
             Player player = (Player) sender;
 
-            if (cmd.getName().equalsIgnoreCase("pay")) {
-                if (player.hasPermission("te.pay") || player.hasPermission("te.player")) {
-                    if (args.length == 2) {
-                        Player receiver = Bukkit.getPlayer(args[0]);
-                        int amount1 = Integer.parseInt(args[1]);
-                        double amount2 = Double.parseDouble(args[1]);
+            TokenManager tokens = TokensEconomy.getTokenManager(player);
 
+            if (cmd.getName().equalsIgnoreCase("tokens")) {
+                if (args.length == 0) {
+                    if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
+                                String.valueOf(tokens.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
+                    } else {
+                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                    }
+                } else if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("help")) {
+                        msgPlayer(player, "&e&nToken Commands&r",
+                                "",
+                                "&6/tokens pay <user> <amount> &7- pay a user amount of tokens.",
+                                "&6/tokens balance &7- get amount of tokens you have.",
+                                "&6/tokens bank &7- get amount of tokens in your bank.",
+                                "&6/tokens exchange &7- opens the exchange gui",
+                                "&6/tokens top &7- opens the top players gui",
+                                "&6/tokens stats &7- gets the server tokens stats",
+                                "&6/tokens toggle &7- toggles token request for yourself.",
+                                "&6/tokens help &7- shows this help guide.",
+                                "",
+                                "&b&nBank Commands&r",
+                                "",
+                                "&3/bank &7- returns the bank balance.",
+                                "&3/bank withdraw <amount> &7- withdraws the amount from your bank.",
+                                "&3/bank deposit <amount> &7- deposits the amount in your bank.",
+                                "");
+                    }
+
+                    if (args[0].equalsIgnoreCase("top")) {
+                        if (player.hasPermission("te.baltop") || player.hasPermission("te.player")) {
+                            new TopMenu(TokensEconomy.getMenuUtil(player)).open();
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                        }
+                    }
+
+                    if (args[0].equalsIgnoreCase("toggle")) {
+                        if (player.hasPermission("te.toggle")) {
+                            if (UserData.getIgnore(player.getUniqueId())) {
+                                UserData.setIgnore(player.getUniqueId(), false);
+                                player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will now be able to send you tokens!"));
+                            } else {
+                                UserData.setIgnore(player.getUniqueId(), true);
+                                player.sendMessage(Utils.applyFormat("&e&lTOKENS &7Players will no longer be able to send you tokens!"));
+                            }
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                        }
+                    }
+
+                    if (args[0].equalsIgnoreCase("bank")) {
+                        if (player.hasPermission("te.bank") || player.hasPermission("te.player")) {
+                            BankManager bank = TokensEconomy.getBankManager(player);
+
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.BANK-BALANCE")).replaceAll("%tokens%",
+                                    String.valueOf(bank.getBank()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                        }
+                    }
+
+                    if (args[0].equalsIgnoreCase("balance")) {
+                        if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
+
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
+                                    String.valueOf(tokens.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                        }
+                    }
+
+                    if (args[0].equalsIgnoreCase("exchange")) {
+                        if (player.hasPermission("te.exchange") || player.hasPermission("te.player")) {
+                            new ExchangeMenu(TokensEconomy.getMenuUtil(player)).open();
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
+                        }
+                    }
+
+                    if (args[0].equalsIgnoreCase("stats")) {
+                        if (player.hasPermission("te.stats") || player.hasPermission("te.player")) {
+                            player.sendMessage(Utils.applyFormat("&e&lTOKEN STATS &8&l>"));
+                            player.sendMessage(Utils.applyFormat("&7Server Total: &e" + UserData.getServerTotalTokens()));
+                            player.sendMessage(Utils.applyFormat("&7Your Balance: &e" + UserData.getTokensInt(player.getUniqueId())));
+                        } else {
+                            player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
+                                    TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                        }
+                    }
+                } else if (args.length == 3) {
+                    if (args[0].equalsIgnoreCase("pay")) {
+                        Player receiver = Bukkit.getPlayer(args[1]);
+                        int amount1 = Integer.parseInt(args[2]);
+                        double amount2 = Double.parseDouble(args[2]);
                         if (receiver != null) {
                             if (te.isMySQL()) {
                                 if (!MySQLUserData.getIgnore(receiver.getUniqueId())) {
@@ -79,13 +182,13 @@ public class TPay implements CommandExecutor  {
                                                 player.sendMessage(Utils.applyFormat("&7Minimum pay is &c" + value + " &7tokens."));
                                             }
                                         } else {
-                                            player.sendMessage(ChatColor.RED + "You cannot send tokens to yourself!");
+                                            player.sendMessage(Utils.applyFormat("&c[&l!&c] &7You cannot send tokens to yourself!"));
                                         }
                                     } else {
-                                        player.sendMessage(ChatColor.RED + "This player has reached the max balance.");
+                                        player.sendMessage(Utils.applyFormat("&c[&l!&c] &7This player has reached the max balance!"));
                                     }
                                 } else {
-                                    player.sendMessage(ChatColor.RED + "You cannot send payments to this player!");
+                                    player.sendMessage(Utils.applyFormat("&c[&l!&c] &7You cannot send payments to this player!"));
                                 }
                             } else if (te.isH2()) {
                                 if (!H2UserData.getIgnore(receiver.getUniqueId())) {
@@ -136,24 +239,19 @@ public class TPay implements CommandExecutor  {
                                                 player.sendMessage(Utils.applyFormat("&7Minimum pay is &c" + value + " &7tokens."));
                                             }
                                         } else {
-                                            player.sendMessage(ChatColor.RED + "You cannot send tokens to yourself!");
+                                            player.sendMessage(Utils.applyFormat("&c[&l!&c] &7You cannot send tokens to yourself!"));
                                         }
                                     } else {
-                                        player.sendMessage(ChatColor.RED + "This player has reached the max balance.");
+                                        player.sendMessage(Utils.applyFormat("&c[&l!&c] &7This player has reached the max balance!"));
                                     }
                                 } else {
-                                    player.sendMessage(ChatColor.RED + "You cannot send payments to this player!");
+                                    player.sendMessage(Utils.applyFormat("&c[&l!&c] &7You cannot send payments to this player!"));
                                 }
                             }
                         } else {
-                            player.sendMessage(ChatColor.RED + "This player is not online.");
+                            player.sendMessage(Utils.applyFormat("&c[&l!&c] &7This user is not online!"));
                         }
-                    } else {
-                        player.sendMessage(ChatColor.RED + "Usage: /tpay <player> <amount>");
                     }
-                } else {
-                    player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
                 }
             }
         }
@@ -177,5 +275,4 @@ public class TPay implements CommandExecutor  {
             return false;
         }
     }
-
 }

@@ -1,9 +1,6 @@
 package net.noscape.project.tokenseco.managers;
 
 import org.bukkit.*;
-import org.bukkit.entity.*;
-
-import java.util.*;
 
 public class TokenManager {
 
