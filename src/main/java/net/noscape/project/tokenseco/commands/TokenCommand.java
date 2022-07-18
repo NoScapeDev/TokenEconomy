@@ -30,14 +30,7 @@ public class TokenCommand implements CommandExecutor {
 
             if (cmd.getName().equalsIgnoreCase("tokens")) {
                 if (args.length == 0) {
-                    if (player.hasPermission("te.balance") || player.hasPermission("te.player")) {
-                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                TokensEconomy.getConfigManager().getMessages().getString("m.BALANCE")).replaceAll("%tokens%",
-                                String.valueOf(tokens.getTokens()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
-                    } else {
-                        player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                                TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
-                    }
+                    new TokenMenu(TokensEconomy.getMenuUtil(player)).open();
                 } else if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("help")) {
                         msgPlayer(player, "&e&nToken Commands&r",

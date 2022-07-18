@@ -138,6 +138,13 @@ public class TAdmin implements CommandExecutor {
                             }
 
                             try {
+                                TokensEconomy.tokenMenuConfig.load(TokensEconomy.tokenMenuFile);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                e.printStackTrace();
+                                Bukkit.getConsoleSender().sendMessage("Couldn't save tokenmenu.yml properly!");
+                            }
+
+                            try {
                                 TokensEconomy.tokenExchangeConfig.load(TokensEconomy.tokenExchangeFile);
                             } catch (IOException | InvalidConfigurationException e) {
                                 e.printStackTrace();

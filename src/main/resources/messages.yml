@@ -15,10 +15,10 @@ m:
   BALANCE: '&7Balance: &e⛃&f%tokens% tokens'
 
   # event messages
-  PLAYER-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a Mob!'
+  PLAYER-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing %player%!'
   PLAYER-DEATH: '%PREFIX% &f%tokens% &7Tokens for&c Your own Death!'
-  MOB-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a Mob!'
-  ANIMAL-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing an Animal!'
+  MOB-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a %mob%!'
+  ANIMAL-KILL: '%PREFIX% &f%tokens% &7Tokens for&a killing a %animal%!'
   CRAFTING: '%PREFIX% &f%tokens% &7Tokens for&a Crafting an Item!'
   ADVANCEMENT: '%PREFIX% &f%tokens% &7Tokens for&a Unlocking an Advancement!'
   PORTAL-NETHER: '%PREFIX% &f%tokens% &7Tokens for&a Entering the Nether!'

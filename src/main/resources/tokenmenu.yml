@@ -1,0 +1,25 @@
+gui:
+  title: '&8&nToken Menu'
+  slots: 27
+  items:
+    top:
+      displayname: '&b⛁ Top Players ⛁' # item name it will display in the shop gui.
+      lore: # lore will be placed on to the item displaying information below.
+        - '&7Click to view top players'
+      slot: 12 # slot this item will go in gui.
+      material: 'PAPER' # material that will be displayed for this item.
+      glow: false # will add a glow effect to the item inside the gui.
+    exchange:
+      displayname: '&a⛁ Token Exchange ⛁' # item name it will display in the shop gui.
+      lore: # lore will be placed on to the item displaying information below.
+        - '&7Click to exchange items for tokens'
+      slot: 14 # slot this item will go in gui.
+      material: 'EMERALD' # material that will be displayed for this item.
+      glow: false # will add a glow effect to the item inside the gui.
+    tokens:
+      displayname: '&e⛁ Your Tokens ⛁' # item name it will display in the shop gui.
+      lore: # lore will be placed on to the item displaying information below.
+        - '&7Your balance: %tokens%'
+      slot: 22 # slot this item will go in gui.
+      material: 'PLAYER_HEAD' # material that will be displayed for this item.
+      glow: false # will add a glow effect to the item inside the gui.

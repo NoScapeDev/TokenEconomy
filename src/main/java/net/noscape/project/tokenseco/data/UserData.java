@@ -1,7 +1,10 @@
 package net.noscape.project.tokenseco.data;
 
-import org.bukkit.entity.*;
 import net.noscape.project.tokenseco.*;
+import net.noscape.project.tokenseco.managers.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.scheduler.*;
 
 import java.util.*;
 
@@ -157,4 +160,30 @@ public class UserData {
             TokensEconomy.getH2user().createPlayer(player);
         }
     }
+
+    public static void updateTop() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player players : Bukkit.getOnlinePlayers()) {
+                    if (Bukkit.getOnlinePlayers().size() >= 1) {
+                        TokenManager tokens = TokensEconomy.getTokenManager(players);
+
+                        if (te.isMySQL()) {
+                            MySQLUserData.setTokens(players.getUniqueId(), tokens.getTokens());
+                        } else if (te.isH2()) {
+                            H2UserData.setTokens(players.getUniqueId(), tokens.getTokens());
+                        }
+
+                        TokensEconomy.getTokenMap().clear();
+                        TokensEconomy.getTokenManager(players);
+                    }
+                }
+
+                Bukkit.getConsoleSender().sendMessage("[TokenStatUpdater] Updated Token-Stats!");
+            }
+        }.runTaskTimer(TokensEconomy.getInstance(), 0, 20 * TokensEconomy.getInstance().getConfig().getInt("t.plugin.update-stats"));
+
+    }
+
 }

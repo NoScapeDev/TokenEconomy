@@ -1,5 +1,6 @@
 package net.noscape.project.tokenseco.managers;
 
+import net.noscape.project.tokenseco.*;
 import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.utils.*;
 import org.bukkit.configuration.file.*;
@@ -13,12 +14,14 @@ public class ConfigManager {
     private final FileConfiguration messages;
     private final FileConfiguration tokenexchange;
     private final FileConfiguration tokentop;
+    private final FileConfiguration tokenmenu;
 
-    public ConfigManager(FileConfiguration config, FileConfiguration messages, FileConfiguration tokenexchange, FileConfiguration tokentop) {
+    public ConfigManager(FileConfiguration config, FileConfiguration messages, FileConfiguration tokenexchange, FileConfiguration tokentop, FileConfiguration tokenmenu) {
         this.config = config;
         this.messages = messages;
         this.tokenexchange = tokenexchange;
         this.tokentop = tokentop;
+        this.tokenmenu = tokenmenu;
     }
 
     public String getTokenSymbol() {
@@ -40,6 +43,18 @@ public class ConfigManager {
                     return true;
 
         return false;
+    }
+
+    public List<String> getMythicMobs() {
+        return new ArrayList<>(Objects.requireNonNull(getConfig().getConfigurationSection("t.player.events.mythic-mobs")).getKeys(false));
+    }
+
+    public List<String> getMobs() {
+        return new ArrayList<>(Objects.requireNonNull(getConfig().getConfigurationSection("t.player.events.kill-mobs")).getKeys(false));
+    }
+
+    public List<String> getAnimals() {
+        return new ArrayList<>(Objects.requireNonNull(getConfig().getConfigurationSection("t.player.events.kill-animals")).getKeys(false));
     }
 
     public List<String> getDisabledWorlds() {
@@ -109,6 +124,14 @@ public class ConfigManager {
             return getConfig().getInt("t.player.events." + str + ".value") != 0;
     }
 
+    public boolean getValueMob(String str) {
+        return getConfig().getInt("t.player.events.kill-mobs" + str + ".value") != 0;
+    }
+
+    public boolean getValueAnimals(String str) {
+        return getConfig().getInt("t.player.events.kill-animals." + str + ".value") != 0;
+    }
+
     public boolean getValueBoolean(String str) {
         return getConfig().getBoolean("t.support." + str);
     }
@@ -121,12 +144,21 @@ public class ConfigManager {
         return getTokenTop().getString("gui.title");
     }
 
+    public String getTitleMenu(Player player) {
+        TokenManager tokens = TokensEconomy.getTokenManager(player);
+        return Objects.requireNonNull(getTokenMenu().getString("gui.title")).replaceAll("%tokens%", String.valueOf(tokens.getTokens()));
+    }
+
     public int getSlotsShop() {
         return getTokenExchange().getInt("gui.slots");
     }
 
     public int getSlotsTop() {
         return getTokenTop().getInt("gui.slots");
+    }
+
+    public int getSlotsMenu() {
+        return getTokenMenu().getInt("gui.slots");
     }
 
     public boolean isBankBalanceShop() {
@@ -183,5 +215,9 @@ public class ConfigManager {
 
     public FileConfiguration getTokenTop() {
         return tokentop;
+    }
+
+    public FileConfiguration getTokenMenu() {
+        return tokenmenu;
     }
 }

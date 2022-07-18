@@ -25,6 +25,7 @@ t:
   plugin:
     # how many entries should /tbaltop pull. Recommended: 1 - 20
     leaderboard-entries: 10 # 10 will pull the top 10 players who have the most tokens.
+    update-stats: 120 # in seconds
 
   # global restrictions, disable token gain in certain objects.
   restrictions:
@@ -86,10 +87,30 @@ t:
         value: 3 # set 0 to disable
       # when you kill a mob.
       kill-mobs:
-        value: 2 # set 0 to disable
+        #<MOB_NAME>:
+          #value: <tokens to be added>
+        ZOMBIE:
+          value: 1
+        SKELETON:
+          value: 1
+        CREEPER:
+          value: 2
+        ENDER_MAN:
+          value: 5
+        ENDER_DRAGON:
+          value: 35
       # when you kill an animal.
       kill-animals:
-        value: 2 # set 0 to disable
+        #<ANIMAL NAME>:
+        #value: <tokens to be added>
+        COW:
+          value: 1
+        SHEEP:
+          value: 1
+        CHICKEN:
+          value: 1
+        RABBIT:
+          value: 1
       # upon crafting an item.
       crafting:
         value: 0 # set 0 to disable
@@ -97,3 +118,10 @@ t:
         value: -10
       end-portal: # this example is how many tokens it would cost to go in the end portal
         value: -20
+      # mythic mobs support
+      # how many tokens a player will get for killing a mythic mob.
+      mythic-mobs:
+        #<name of the mythic mob>:
+          #value: 20
+        example: # the InternalName of the mythic mob.
+          value: 10 # amount of tokens the player will get killing the mythic mob.

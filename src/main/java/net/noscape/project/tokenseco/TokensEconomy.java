@@ -39,6 +39,9 @@ public final class TokensEconomy extends JavaPlugin {
     public static File tokenExchangeFile;
     public static FileConfiguration tokenExchangeConfig;
 
+    public static File tokenMenuFile;
+    public static FileConfiguration tokenMenuConfig;
+
     public static File tokenTopFile;
     public static FileConfiguration tokenTopConfig;
 
@@ -89,6 +92,16 @@ public final class TokensEconomy extends JavaPlugin {
         tokenTopConfig = new YamlConfiguration();
         try {
             tokenTopConfig.load(tokenTopFile);
+        } catch (IOException | org.bukkit.configuration.InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        tokenMenuFile = new File(getDataFolder(), "tokenmenu.yml");
+        if (!tokenMenuFile.exists())
+            saveResource("tokenmenu.yml", false);
+        tokenMenuConfig = new YamlConfiguration();
+        try {
+            tokenMenuConfig.load(tokenMenuFile);
         } catch (IOException | org.bukkit.configuration.InvalidConfigurationException e) {
             e.printStackTrace();
         }
@@ -164,14 +177,19 @@ public final class TokensEconomy extends JavaPlugin {
             LoadHook.load();
         }
 
-        config = new ConfigManager(getInstance().getConfig(), messageConfig, tokenExchangeConfig, tokenTopConfig);
+        // confirm mythic mobs
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
+            Bukkit.getConsoleSender().sendMessage("[MythicMobs] TokenEconomy: Hooked into MythicMobs.");
+        }
+
+        config = new ConfigManager(getInstance().getConfig(), messageConfig, tokenExchangeConfig, tokenTopConfig, tokenMenuConfig);
         tokenAPI = new TokenAPI();
+
+        UserData.updateTop();
     }
 
     @Override
     public void onDisable() {
-
-
         // unload economy vault.
         if (getConfig().getBoolean("t.support.tokeneco-vault-dependency")) {
             LoadHook.unload();
@@ -216,7 +234,7 @@ public final class TokensEconomy extends JavaPlugin {
     }
 
     public static BankManager getBankManager(OfflinePlayer player) {
-        BankManager bank = null;
+        BankManager bank;
 
         if (bankMap.containsKey(player)) {
             return bankMap.get(player);
@@ -229,7 +247,7 @@ public final class TokensEconomy extends JavaPlugin {
     }
 
     public static TokenManager getTokenManager(OfflinePlayer player) {
-        TokenManager token = null;
+        TokenManager token;
 
         if (tokenMap.containsKey(player)) {
             return tokenMap.get(player);
