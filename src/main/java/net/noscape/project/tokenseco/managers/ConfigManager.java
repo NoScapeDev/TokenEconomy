@@ -125,7 +125,7 @@ public class ConfigManager {
     }
 
     public boolean getValueMob(String str) {
-        return getConfig().getInt("t.player.events.kill-mobs" + str + ".value") != 0;
+        return getConfig().getInt("t.player.events.kill-mobs." + str + ".value") != 0;
     }
 
     public boolean getValueAnimals(String str) {

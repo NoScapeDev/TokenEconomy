@@ -264,6 +264,9 @@ public class TAdmin implements CommandExecutor {
                                 player.sendMessage(Utils.applyFormat("&cUsage: &7/tadmin bank give/set/remove <player> <amount>"));
                                 return true;
                             }
+                        } else {
+                            player.sendMessage(Utils.applyFormat("&cUsage: &7/tadmin bank give/set/remove <player> <amount>"));
+                            return true;
                         }
                     } else {
                         for (String admin_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.ADMIN-HELP")) {

@@ -23,7 +23,7 @@ public class TPay implements CommandExecutor  {
             Player player = (Player) sender;
 
             if (cmd.getName().equalsIgnoreCase("pay")) {
-                if (player.hasPermission("te.pay") || player.hasPermission("te.player")) {
+                if(player.hasPermission("te.pay") ||  player.hasPermission("te.player")) {
                     if (args.length == 2) {
                         Player receiver = Bukkit.getPlayer(args[0]);
                         int amount1 = Integer.parseInt(args[1]);

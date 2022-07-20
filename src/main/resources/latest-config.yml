@@ -71,7 +71,7 @@ t:
       min-bank-withdraw: 1
       # Maximum amount someone can withdraw.
       max-bank-withdraw: 50000000
-      # should token shop use bank balance? if true, this will add to normal token balance.
+      # should token exchange use bank balance? if true, this will add to bank token balance.
       exchange-bank-balance: false
 
     # value = the amount of tokens it will give the player on completing the events.
@@ -86,23 +86,10 @@ t:
       kill-players:
         value: 3 # set 0 to disable
       # when you kill a mob.
-      kill-mobs:
-        #<MOB_NAME>:
+      kill-entities:
+        #<ENTITY_NAME>:
         #value: <tokens to be added>
-        ZOMBIE:
-          value: 1
-        SKELETON:
-          value: 1
-        CREEPER:
-          value: 2
-        ENDER_MAN:
-          value: 5
-        ENDER_DRAGON:
-          value: 35
-      # when you kill an animal.
-      kill-animals:
-        #<ANIMAL NAME>:
-        #value: <tokens to be added>
+        # entity: animals
         COW:
           value: 1
         SHEEP:
@@ -110,7 +97,20 @@ t:
         CHICKEN:
           value: 1
         RABBIT:
-          value: 0
+          value: 1
+        # entity: mobs
+        ZOMBIE:
+          value: 1
+        SKELETON:
+          value: 1
+        CREEPER:
+          value: 2
+        SLIME:
+          value: 2
+        ENDER_MAN:
+          value: 5
+        ENDER_DRAGON:
+          value: 35
       # upon crafting an item.
       crafting:
         value: 0 # set 0 to disable
@@ -118,10 +118,3 @@ t:
         value: -10
       end-portal: # this example is how many tokens it would cost to go in the end portal
         value: -20
-      # mythic mobs support
-      # how many tokens a player will get for killing a mythic mob.
-      mythic-mobs:
-        #<name of the mythic mob>:
-        #value: 20
-        example: # the InternalName of the mythic mob.
-          value: 10 # amount of tokens the player will get killing the mythic mob.

@@ -10,6 +10,7 @@ import net.noscape.project.tokenseco.utils.bstats.*;
 import net.noscape.project.tokenseco.utils.implement.*;
 import net.noscape.project.tokenseco.utils.menu.*;
 import org.bukkit.*;
+import org.bukkit.configuration.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -136,6 +137,7 @@ public final class TokensEconomy extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
+        getServer().getPluginManager().registerEvents(new KillEvents(), this);
 
         Objects.requireNonNull(getCommand("tokens")).setExecutor(new TokenCommand());
 
@@ -186,6 +188,12 @@ public final class TokensEconomy extends JavaPlugin {
         tokenAPI = new TokenAPI();
 
         UserData.updateTop();
+
+        try {
+            getConfig().load(getDataFolder() + "/config.yml");
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

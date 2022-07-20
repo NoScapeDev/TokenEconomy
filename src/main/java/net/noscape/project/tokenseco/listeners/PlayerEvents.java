@@ -5,7 +5,6 @@ import net.noscape.project.tokenseco.data.*;
 import net.noscape.project.tokenseco.managers.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
-import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 
@@ -38,120 +37,19 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onKill(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player && e.getEntity().getKiller() != null) {
-            Player killer = e.getEntity().getKiller();
-
-            assert killer != null;
-            TokenManager man = TokensEconomy.getTokenManager(killer);
-
-            if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
-                if (TokensEconomy.getConfigManager().getValueEnabled("kill-players")) {
-                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                        int tokens = TokensEconomy.getConfigManager().getValue("kill-players");
-
-                        man.addTokens(tokens);
-
-                        if (TokensEconomy.getConfigManager().isEventMessage()) {
-                            killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-KILL", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                        }
-                    }
-                }
-            }
-        } else if (e.getEntity() instanceof Monster && e.getEntity().getKiller() != null) {
-            Player killer = e.getEntity().getKiller();
-
-            assert killer != null;
-
-            TokenManager man = TokensEconomy.getTokenManager(killer);
-            if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
-                for (String mob : TokensEconomy.getConfigManager().getMobs()) {
-                    if (mob.contains(e.getEntityType().name().toUpperCase())) {
-
-                        if (TokensEconomy.getConfigManager().getValueMob("mob")) {
-                            if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                                int tokens = TokensEconomy.getConfigManager().getConfig().getInt("t.player.events.kill-mobs." + mob + ".value");
-
-                                man.addTokens(tokens);
-
-                                if (TokensEconomy.getConfigManager().isEventMessage()) {
-                                    killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-MOB", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())
-                                            .replaceAll("%mob%", e.getEntityType().name()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (e.getEntity() instanceof Animals && e.getEntity().getKiller() != null) {
-            Player killer = e.getEntity().getKiller();
-
-            assert killer != null;
-
-            TokenManager man = TokensEconomy.getTokenManager(killer);
-            if (!TokensEconomy.getConfigManager().isInDisabledWorld(killer)) {
-                for (String animal : TokensEconomy.getConfigManager().getAnimals()) {
-                    if (animal.contains(e.getEntityType().name().toUpperCase())) {
-
-                        if (TokensEconomy.getConfigManager().getValueAnimals(animal)) {
-                            if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                                int tokens = TokensEconomy.getConfigManager().getValue("kill-animals");
-
-                                man.addTokens(tokens);
-
-                                if (TokensEconomy.getConfigManager().isEventMessage()) {
-                                    killer.sendMessage(TokensEconomy.getConfigManager().getEventMessage("ANIMAL-KILL", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())
-                                            .replaceAll("%animal%", e.getEntityType().name()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (e.getEntity() instanceof Player) {
-            Player victim = (Player) e.getEntity();
-
-            String str = TokensEconomy.getConfigManager().getConfig().getString("t.player.events.player-death.value");
-            TokenManager man = TokensEconomy.getTokenManager(victim);
-            if (!TokensEconomy.getConfigManager().isInDisabledWorld(victim)) {
-                assert str != null;
-                if (str.startsWith("-")) {
-                    str = str.replaceAll("-", "");
-
-                    int value = Integer.parseInt(str);
-
-                    man.removeTokens(value);
-
-                    if (TokensEconomy.getConfigManager().isEventMessage()) {
-                        victim.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-DEATH", "&c-" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                    }
-                } else {
-                    int value = Integer.parseInt(str);
-
-                    if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                        man.addTokens(value);
-
-                        if (TokensEconomy.getConfigManager().isEventMessage()) {
-                            victim.sendMessage(TokensEconomy.getConfigManager().getEventMessage("PLAYER-DEATH", "&a+" + value).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
     public void onCraft(CraftItemEvent e) {
         Player player = (Player) e.getInventory().getHolder();
         TokenManager man = TokensEconomy.getTokenManager(player);
-        if (!TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
+        if (TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
             assert player != null;
             if (TokensEconomy.getConfigManager().getValueEnabled("crafting")) {
                 if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                     int tokens = TokensEconomy.getConfigManager().getValue("crafting");
 
                     man.addTokens(tokens);
-                    player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("CRAFTING", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    if (TokensEconomy.getConfigManager().isEventMessage()) {
+                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("CRAFTING", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
+                    }
                 }
             }
         }
@@ -163,7 +61,7 @@ public class PlayerEvents implements Listener {
 
         TokenManager man = TokensEconomy.getTokenManager(player);
 
-        if (!TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
+        if (TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
             if (TokensEconomy.getConfigManager().getValueEnabled("advancement-complete")) {
                 if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
                     int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
