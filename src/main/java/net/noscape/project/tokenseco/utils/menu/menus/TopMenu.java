@@ -84,7 +84,7 @@ public class TopMenu extends Menu {
         }
 
         displayname = displayname.replaceAll("%top_player%", name);
-        displayname = displayname.replaceAll("%number%", String.valueOf(slot - 1).replace("-", ""));
+        displayname = displayname.replaceAll("%number%", String.valueOf(slot + 1).replace("-", ""));
 
         meta.setDisplayName(Utils.applyFormat(displayname));
 

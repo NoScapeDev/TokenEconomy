@@ -149,11 +149,11 @@ public class TPay implements CommandExecutor  {
                             player.sendMessage(ChatColor.RED + "This player is not online.");
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "Usage: /tpay <player> <amount>");
+                        player.sendMessage(ChatColor.RED + "Usage: /pay <player> <amount>");
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
-                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION"))));
+                            TokensEconomy.getConfigManager().getMessages().getString("m.PERMISSION")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                 }
             }
         }

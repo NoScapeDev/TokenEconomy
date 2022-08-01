@@ -12,9 +12,9 @@ gui:
       displayname: '&e&l15 Tokens' # item name it will display in the shop gui.
       lore: # lore will be placed on to the item displaying information below.
         - '&71x emerald for &e15 &7tokens.'
-      slot: 9 # slot this item will go in /tshop.
+      slot: 9 # slot this item will go in /token exchange.
       amount: 1 # also how many 'item-exchange' material it will remove from the players inventory.
-      material: 'EMERALD' # material that will be displayed for this item in-side the tshop gui.
+      material: 'EMERALD' # material that will be displayed for this item in-side the exchange gui.
       glow: true # will add a glow effect to the item inside the gui.
       tokens: 15 # how many tokens it will give the player  on having & clicking the this item.
     2:

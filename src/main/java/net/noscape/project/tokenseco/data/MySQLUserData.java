@@ -289,7 +289,7 @@ public class MySQLUserData {
 
     public static Double getServerTotalTokens() {
         try {
-            PreparedStatement statement = TokensEconomy.getMysql().getConnection().prepareStatement("SELECT Tokens FROM `user`");
+            PreparedStatement statement = TokensEconomy.getMysql().getConnection().prepareStatement("SELECT * FROM `user`");
             ResultSet rs = statement.executeQuery();
             double total = 0.0;
 

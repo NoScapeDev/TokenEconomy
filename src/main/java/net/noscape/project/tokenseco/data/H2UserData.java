@@ -290,7 +290,7 @@ public class H2UserData {
 
     public static Double getServerTotalTokens() {
         try {
-            PreparedStatement statement = TokensEconomy.getH2Database().getConnection().prepareStatement("SELECT Tokens FROM `user`");
+            PreparedStatement statement = TokensEconomy.getH2Database().getConnection().prepareStatement("SELECT * FROM `user`");
             ResultSet rs = statement.executeQuery();
             double total = 0.0;
 

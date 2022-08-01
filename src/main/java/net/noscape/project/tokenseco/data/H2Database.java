@@ -35,7 +35,7 @@ public class H2Database {
         PreparedStatement preparedStatement;
 
         String userData = "CREATE TABLE IF NOT EXISTS `user` " +
-                "(`Name` VARCHAR(100), `UUID` VARCHAR(100),`Tokens` VARCHAR(100), `Bank` VARCHAR(100), `Ignore_Pay` VARCHAR(100))";
+                "(`Name` VARCHAR(100), `UUID` VARCHAR(100) primary key,`Tokens` VARCHAR(100), `Bank` VARCHAR(100), `Ignore_Pay` VARCHAR(100))";
 
         try {
             preparedStatement = getConnection().prepareStatement(userData);

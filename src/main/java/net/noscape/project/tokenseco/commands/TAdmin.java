@@ -11,6 +11,7 @@ import org.bukkit.entity.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 
 public class TAdmin implements CommandExecutor {
 
@@ -53,7 +54,7 @@ public class TAdmin implements CommandExecutor {
                             Bukkit.getConsoleSender().sendMessage("Couldn't save tokentop.yml properly!");
                         }
 
-                        sender.sendMessage(TokensEconomy.getConfigManager().getReload());
+                        sender.sendMessage(TokensEconomy.getConfigManager().getReload().replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                         return true;
                     } else if (args[0].equalsIgnoreCase("version")) {
                         sender.sendMessage(Utils.applyFormat("&e&lADMIN &7You are using &ev" + te.getDescription().getVersion() + " &7of &e" + te.getDescription().getName()));
@@ -158,7 +159,7 @@ public class TAdmin implements CommandExecutor {
                                 Bukkit.getConsoleSender().sendMessage("Couldn't save tokentop.yml properly!");
                             }
 
-                            player.sendMessage(TokensEconomy.getConfigManager().getReload());
+                            player.sendMessage(TokensEconomy.getConfigManager().getReload().replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                             return true;
                         } else if (args[0].equalsIgnoreCase("version")) {
                             player.sendMessage(Utils.applyFormat("&e&lADMIN &7You are using &ev" + te.getDescription().getVersion() + " &7of &e" + te.getDescription().getName()));
@@ -172,94 +173,152 @@ public class TAdmin implements CommandExecutor {
                         OfflinePlayer receiver = Bukkit.getOfflinePlayer(args[2]);
                         int amount1 = Integer.parseInt(args[3]);
 
+                        String pattern = "([0-9]*)\\.([0-9]*)";
+                        String num = String.valueOf(amount1);
+                        boolean match = Pattern.matches(pattern, num);
+
                         if (args[0].equalsIgnoreCase("tokens")) {
                             if (option.equalsIgnoreCase("give")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.addTokens(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.addTokens(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.addTokens(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                            tokens.addTokens(amount1);
+                                        }
+
+                                        player.sendMessage(Utils.applyFormat("&eTokens> &7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
                                     }
                                 } else {
-                                    TokenManager tokens = TokensEconomy.getTokenManager(receiver);
-                                    tokens.addTokens(amount1);
+                                    player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
+                                    return true;
                                 }
-
-                                player.sendMessage(Utils.applyFormat("&eTokens> &7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
-                                return true;
                             } else if (option.equalsIgnoreCase("set")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.setTokens(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.setTokens(receiver.getUniqueId(), amount1);
-                                    }
-                                } else {
-                                    TokenManager tokens = TokensEconomy.getTokenManager(receiver);
-                                    tokens.setTokens(amount1);
-                                }
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.setTokens(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.setTokens(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                            tokens.setTokens(amount1);
+                                        }
 
-                                player.sendMessage(Utils.applyFormat("&eTokens> &7" + receiver.getName() + "'s token balance has been set to &e" + amount1));
-                                return true;
-                            } else if (option.equalsIgnoreCase("remove")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.removeTokens(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                        player.sendMessage(Utils.applyFormat("&eTokens> &7" + receiver.getName() + "'s token balance has been set to &e" + amount1));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
                                     }
                                 } else {
-                                    TokenManager tokens = TokensEconomy.getTokenManager(receiver);
-                                    tokens.removeTokens(amount1);
+                                    player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
+                                    return true;
                                 }
-                                player.sendMessage(Utils.applyFormat("&eTokens> &7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
-                                return true;
+                            } else if (option.equalsIgnoreCase("remove")) {
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.removeTokens(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.removeTokens(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            TokenManager tokens = TokensEconomy.getTokenManager(receiver);
+                                            tokens.removeTokens(amount1);
+                                        }
+                                        player.sendMessage(Utils.applyFormat("&eTokens> &7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
+                                    }
+                                } else {
+                                    player.sendMessage(Utils.applyFormat("&cUsage: &7/tadmin tokens give/set/remove <player> <amount>"));
+                                    return true;
+                                }
                             } else {
-                                player.sendMessage(Utils.applyFormat("&cUsage: &7/tadmin tokens give/set/remove <player> <amount>"));
+                                player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
                                 return true;
                             }
                         } else if (args[0].equalsIgnoreCase("bank")) {
                             if (option.equalsIgnoreCase("give")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.addBank(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.addBank(receiver.getUniqueId(), amount1);
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.addBank(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.addBank(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            BankManager bank = TokensEconomy.getBankManager(receiver);
+                                            bank.addBank(amount1);
+                                        }
+
+                                        player.sendMessage(Utils.applyFormat("&bBank> &7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
                                     }
                                 } else {
-                                    BankManager bank = TokensEconomy.getBankManager(receiver);
-                                    bank.addBank(amount1);
+                                    player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
+                                    return true;
                                 }
-
-                                player.sendMessage(Utils.applyFormat("&bBank> &7Given " + receiver.getName() + " &e" + amount1 + " &7Tokens."));
-                                return true;
                             } else if (option.equalsIgnoreCase("set")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.setBank(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.setBank(receiver.getUniqueId(), amount1);
-                                    }
-                                } else {
-                                    BankManager bank = TokensEconomy.getBankManager(receiver);
-                                    bank.setBank(amount1);
-                                }
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.setBank(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.setBank(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            BankManager bank = TokensEconomy.getBankManager(receiver);
+                                            bank.setBank(amount1);
+                                        }
 
-                                player.sendMessage(Utils.applyFormat("&bBank> &7" + receiver.getName() + "'s bank balance has been set to &e" + amount1));
-                                return true;
-                            } else if (option.equalsIgnoreCase("remove")) {
-                                if (!receiver.isOnline()) {
-                                    if (te.isMySQL()) {
-                                        MySQLUserData.removeBank(receiver.getUniqueId(), amount1);
-                                    } else if (te.isH2()) {
-                                        H2UserData.removeBank(receiver.getUniqueId(), amount1);
+                                        player.sendMessage(Utils.applyFormat("&bBank> &7" + receiver.getName() + "'s bank balance has been set to &e" + amount1));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
                                     }
                                 } else {
-                                    BankManager bank = TokensEconomy.getBankManager(receiver);
-                                    bank.removeBank(amount1);
+                                    player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
+                                    return true;
                                 }
-                                player.sendMessage(Utils.applyFormat("&bBank> &7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
-                                return true;
+                            } else if (option.equalsIgnoreCase("remove")) {
+                                if (!(match)) {
+                                    if (!(amount1 < 0)) {
+                                        if (!receiver.isOnline()) {
+                                            if (te.isMySQL()) {
+                                                MySQLUserData.removeBank(receiver.getUniqueId(), amount1);
+                                            } else if (te.isH2()) {
+                                                H2UserData.removeBank(receiver.getUniqueId(), amount1);
+                                            }
+                                        } else {
+                                            BankManager bank = TokensEconomy.getBankManager(receiver);
+                                            bank.removeBank(amount1);
+                                        }
+                                        player.sendMessage(Utils.applyFormat("&bBank> &7Removed &e" + amount1 + "&7 tokens from &e" + receiver.getName() + "&7."));
+                                    } else {
+                                        player.sendMessage(Utils.applyFormat("&cError: &7Value can't be negative."));
+                                        return true;
+                                    }
+                                } else {
+                                    player.sendMessage(Utils.applyFormat("&cError: &7Value format is not correct."));
+                                    return true;
+                                }
                             } else {
                                 player.sendMessage(Utils.applyFormat("&cUsage: &7/tadmin bank give/set/remove <player> <amount>"));
                                 return true;

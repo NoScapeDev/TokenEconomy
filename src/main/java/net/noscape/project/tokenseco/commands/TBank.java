@@ -25,7 +25,7 @@ public class TBank implements CommandExecutor {
 
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                 TokensEconomy.getConfigManager().getMessages().getString("m.BANK-BALANCE")).replace("%tokens%",
-                                String.valueOf(bank.getBank()).replace("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
+                                String.valueOf(bank.getBank()).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()))));
                     } else if (args.length == 1) {
                         if (args[0].equalsIgnoreCase("help")) {
                             for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
@@ -46,8 +46,8 @@ public class TBank implements CommandExecutor {
                             // remove from bank and add to token balance
                             // check if they have enough bank balance
 
-                            if (amount > TokensEconomy.getConfigManager().getMaxWithdraw()) {
-                                if (amount < TokensEconomy.getConfigManager().getMinWithdraw()) {
+                            if (!(amount > TokensEconomy.getConfigManager().getMaxWithdraw())) {
+                                if (!(amount < TokensEconomy.getConfigManager().getMinWithdraw())) {
                                     if (bank.getBank() >= amount) {
                                         bank.removeBank(amount);
                                         tokens.addTokens(amount);
@@ -74,8 +74,8 @@ public class TBank implements CommandExecutor {
                             // add into the bank and remove from token balance
                             // check if they have enough token balance
 
-                            if (amount > TokensEconomy.getConfigManager().getMaxDeposit()) {
-                                if (amount < TokensEconomy.getConfigManager().getMinDeposit()) {
+                            if (!(amount > TokensEconomy.getConfigManager().getMaxDeposit())) {
+                                if (!(amount < TokensEconomy.getConfigManager().getMinDeposit())) {
                                     if (tokens.getTokens() >= amount) {
                                         tokens.removeTokens(amount);
                                         bank.addBank(amount);
@@ -95,10 +95,10 @@ public class TBank implements CommandExecutor {
                                 player.sendMessage(Utils.applyFormat(Objects.requireNonNull(
                                         TokensEconomy.getConfigManager().getMessages().getString("m.MAX-DEPOSIT")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
                             }
-                        } else {
-                            for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
-                                player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                            }
+                        }
+                    } else {
+                        for (String bank_help : TokensEconomy.getConfigManager().getMessages().getStringList("m.BANK-HELP")) {
+                            player.sendMessage(Utils.applyFormat(bank_help).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
                         }
                     }
                 } else {

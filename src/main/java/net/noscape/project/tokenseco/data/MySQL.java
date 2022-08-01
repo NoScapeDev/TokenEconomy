@@ -60,7 +60,7 @@ public class MySQL {
 
     public void createTable() throws SQLException {
         String userData = "CREATE TABLE IF NOT EXISTS `user` " +
-                "(`Name` VARCHAR(100), `UUID` VARCHAR(100),`Tokens` VARCHAR(100), `Bank` VARCHAR(100), `Ignore_Pay` VARCHAR(100))";
+                "(`Name` VARCHAR(100), `UUID` VARCHAR(100) primary key,`Tokens` VARCHAR(100), `Bank` VARCHAR(100), `Ignore_Pay` VARCHAR(100))";
 
         Statement stmt = connection.createStatement();
         stmt.execute(userData);

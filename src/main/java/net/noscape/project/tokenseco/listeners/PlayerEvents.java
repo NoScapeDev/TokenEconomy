@@ -35,26 +35,6 @@ public class PlayerEvents implements Listener {
             TokensEconomy.getBankMap().remove(e.getPlayer());
         }
     }
-
-    @EventHandler
-    public void onCraft(CraftItemEvent e) {
-        Player player = (Player) e.getInventory().getHolder();
-        TokenManager man = TokensEconomy.getTokenManager(player);
-        if (TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
-            assert player != null;
-            if (TokensEconomy.getConfigManager().getValueEnabled("crafting")) {
-                if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                    int tokens = TokensEconomy.getConfigManager().getValue("crafting");
-
-                    man.addTokens(tokens);
-                    if (TokensEconomy.getConfigManager().isEventMessage()) {
-                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("CRAFTING", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                    }
-                }
-            }
-        }
-    }
-
     @EventHandler
     public void onAdvance(PlayerAdvancementDoneEvent e) {
         Player player = e.getPlayer();
