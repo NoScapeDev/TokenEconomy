@@ -37,10 +37,10 @@ public class TokenShop extends Menu {
     public void handleMenu(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
 
-        for (String items : Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getConfigurationSection("gui.items")).getKeys(false)) {
-            String displayname = TokensEconomy.getConfigManager().getTokenshop().getString("gui.items." + items + ".displayname");
-            int tokens = TokensEconomy.getConfigManager().getTokenshop().getInt("gui.items." + items + ".tokens");
-            int amount_material = TokensEconomy.getConfigManager().getTokenshop().getInt("gui.items." + items + ".amount");
+        for (String items : Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getConfigurationSection("gui.items")).getKeys(false)) {
+            String displayname = TokensEconomy.getConfigManager().getTokenExchange().getString("gui.items." + items + ".displayname");
+            int tokens = TokensEconomy.getConfigManager().getTokenExchange().getInt("gui.items." + items + ".tokens");
+            int amount_material = TokensEconomy.getConfigManager().getTokenExchange().getInt("gui.items." + items + ".amount");
 
 
             if (Objects.requireNonNull(Objects.requireNonNull(e.getCurrentItem()).getItemMeta()).getDisplayName().equals(Utils.applyFormat(displayname))) {
@@ -62,18 +62,18 @@ public class TokenShop extends Menu {
 
                         // confirmation
                         player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.RECEIVED")).replaceAll("%tokens%", String.valueOf(tokens)).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
-                        if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
+                        if (TokensEconomy.getConfigManager().getTokenExchange().getBoolean("gui.sound.enable")) {
                             player.playSound(player.getLocation(),
-                                    Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.success")).toUpperCase()), 1, 1);
+                                    Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getString("gui.sound.success")).toUpperCase()), 1, 1);
                         }
                     } else {
                         player.sendMessage(Utils.applyFormat("&cYou have reached the max token balance!"));
                     }
                 } else {
                     player.sendMessage(Utils.applyFormat(Objects.requireNonNull(TokensEconomy.getConfigManager().getMessages().getString("m.NOT_ENOUGH_MATERIALS")).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix())));
-                    if (TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.sound.enable")) {
+                    if (TokensEconomy.getConfigManager().getTokenExchange().getBoolean("gui.sound.enable")) {
                         player.playSound(player.getLocation(),
-                                Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.sound.failed")).toUpperCase()), 1, 1);
+                                Sound.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getString("gui.sound.failed")).toUpperCase()), 1, 1);
                     }
                 }
             }
@@ -86,19 +86,19 @@ public class TokenShop extends Menu {
 
         // main items
 
-        for (String items : Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getConfigurationSection("gui.items")).getKeys(false)) {
+        for (String items : Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getConfigurationSection("gui.items")).getKeys(false)) {
 
-            String displayname = TokensEconomy.getConfigManager().getTokenshop().getString("gui.items." + items + ".displayname");
-            int slot = TokensEconomy.getConfigManager().getTokenshop().getInt("gui.items." + items + ".slot");
-            boolean glow = TokensEconomy.getConfigManager().getTokenshop().getBoolean("gui.items." + items + ".glow");
-            String material = Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.items." + items + ".material")).toUpperCase();
-            int amount = TokensEconomy.getConfigManager().getTokenshop().getInt("gui.items." + items + ".amount");
+            String displayname = TokensEconomy.getConfigManager().getTokenExchange().getString("gui.items." + items + ".displayname");
+            int slot = TokensEconomy.getConfigManager().getTokenExchange().getInt("gui.items." + items + ".slot");
+            boolean glow = TokensEconomy.getConfigManager().getTokenExchange().getBoolean("gui.items." + items + ".glow");
+            String material = Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getString("gui.items." + items + ".material")).toUpperCase();
+            int amount = TokensEconomy.getConfigManager().getTokenExchange().getInt("gui.items." + items + ".amount");
 
             //List<String> lore = TokensEconomy.getConfigManager().getTokenshop().getStringList("gui.items." + items + ".lore");
 
             ItemStack item = new ItemStack(Material.valueOf(material), amount);
 
-            for (String lore : TokensEconomy.getConfigManager().getTokenshop().getStringList("gui.items." + items + ".lore")) {
+            for (String lore : TokensEconomy.getConfigManager().getTokenExchange().getStringList("gui.items." + items + ".lore")) {
                 nameItem(item, Utils.applyFormat(displayname), lore);
             }
 
@@ -130,7 +130,7 @@ public class TokenShop extends Menu {
         for (int slot = 0; slot < size; slot++) {
             ItemStack is = inventory.getItem(slot);
             if (is == null) continue;
-            if (Material.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.item-exchange")).toUpperCase()) == is.getType()) {
+            if (Material.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getString("gui.item-exchange")).toUpperCase()) == is.getType()) {
                 int newAmount = is.getAmount() - amount;
                 if (newAmount > 0) {
                     is.setAmount(newAmount);
@@ -149,7 +149,7 @@ public class TokenShop extends Menu {
         for (int slot = 0; slot < size; slot++) {
             ItemStack is = inventory.getItem(slot);
             if (is == null) continue;
-            if (Material.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenshop().getString("gui.item-exchange")).toUpperCase()) == is.getType()
+            if (Material.valueOf(Objects.requireNonNull(TokensEconomy.getConfigManager().getTokenExchange().getString("gui.item-exchange")).toUpperCase()) == is.getType()
                     && is.getAmount() >= amount)
                 return true;
         }

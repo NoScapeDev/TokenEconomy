@@ -12,6 +12,7 @@ commands:
   tadmin:
     description: tadmin main command.
   exchange:
+    description: main token exchange command.
   balance:
     aliases: [balance, tokens]
   baltop:
