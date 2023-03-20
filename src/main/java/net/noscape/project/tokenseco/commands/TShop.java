@@ -43,5 +43,4 @@ public class TShop implements CommandExecutor {
         }
         return false;
     }
-
 }
