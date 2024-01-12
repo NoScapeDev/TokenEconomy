@@ -52,6 +52,8 @@ t:
   player:
     # the amount of tokens a player will start with.
     starting-balance: 150
+    # whats the minimum balance a player can have
+    min-balance: 0
     # Max balance a player can have.
     max-balance: 1000000000 # the max tokens someone can have, only admin commands will be able to bypass this.
     # Minimum amount to be used in /tpay.

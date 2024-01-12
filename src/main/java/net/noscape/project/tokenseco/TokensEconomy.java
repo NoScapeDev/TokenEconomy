@@ -58,6 +58,8 @@ public final class TokensEconomy extends JavaPlugin {
     private final String password = getConfig().getString("t.data.password");
     private final String options = getConfig().getString("t.data.options");
 
+    boolean minecraft1_8;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -138,6 +140,8 @@ public final class TokensEconomy extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
         getServer().getPluginManager().registerEvents(new KillEvents(), this);
+
+        getServer().getPluginManager().registerEvents(new AdvancementNewEvent(), this);
 
         Objects.requireNonNull(getCommand("tokens")).setExecutor(new TokenCommand());
 
@@ -331,6 +335,11 @@ public final class TokensEconomy extends JavaPlugin {
             }
             return map;
         }));
+    }
+
+    public boolean isLagacy() {
+        String version = Bukkit.getServer().getClass().getPackage().toString();
+        return version.contains("1.8") || version.contains("1.9") || version.contains("1.10") || version.contains("1.11") || version.contains("1.12");
     }
 
 }

@@ -26,6 +26,7 @@ public class BankManager {
         setBank(i);
     }
 
+
     public void removeBank(int tokens) {
         int i = getBank() - tokens;
 

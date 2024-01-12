@@ -13,13 +13,12 @@ public class Utils {
         Pattern hexPattern = Pattern.compile("&#([A-Fa-f0-9]){6}");
         Matcher matcher = hexPattern.matcher(message);
         while (matcher.find()) {
-            ChatColor hexColor = ChatColor.of(matcher.group().substring(1));
+            ChatColor hexColor = ChatColor.valueOf(matcher.group().substring(1));
             String before = message.substring(0, matcher.start());
             String after = message.substring(matcher.end());
             message = before + hexColor + after;
             matcher = hexPattern.matcher(message);
         }
-
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

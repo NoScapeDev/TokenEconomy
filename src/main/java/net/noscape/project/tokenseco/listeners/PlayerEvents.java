@@ -35,26 +35,6 @@ public class PlayerEvents implements Listener {
             TokensEconomy.getBankMap().remove(e.getPlayer());
         }
     }
-    @EventHandler
-    public void onAdvance(PlayerAdvancementDoneEvent e) {
-        Player player = e.getPlayer();
-
-        TokenManager man = TokensEconomy.getTokenManager(player);
-
-        if (TokensEconomy.getConfigManager().isInDisabledWorld(player)) {
-            if (TokensEconomy.getConfigManager().getValueEnabled("advancement-complete")) {
-                if (!(man.getTokens() >= TokensEconomy.getConfigManager().getConfig().getInt("t.player.max-balance"))) {
-                    int tokens = TokensEconomy.getConfigManager().getValue("advancement-complete");
-
-                    man.addTokens(tokens);
-
-                    if (TokensEconomy.getConfigManager().isEventMessage()) {
-                        player.sendMessage(TokensEconomy.getConfigManager().getEventMessage("ADVANCEMENT", "&a+" + tokens).replaceAll("%PREFIX%", TokensEconomy.getConfigManager().getPrefix()));
-                    }
-                }
-            }
-        }
-    }
 
     @EventHandler
     public void onNetherEnter(PlayerTeleportEvent e) {
